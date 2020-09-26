@@ -1,0 +1,86 @@
+{
+  "private": false,
+  "babel": {
+    "env": {
+      "test": {
+        "plugins": ["@babel/plugin-transform-modules-commonjs"]
+      }
+    },
+    "presets": [["@babel/preset-env"]]
+  },
+  "commitlint": {
+    "extends": ["@commitlint/config-conventional"]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.11.6",
+    "@babel/plugin-transform-modules-commonjs": "^7.10.4",
+    "@babel/preset-env": "^7.11.5",
+    "babel-jest": "^26.3.0",
+    "coffee-loader": "^1",
+    "coffeescript": "^2",
+    "copy-webpack-plugin": "^6",
+    "css-loader": "^4",
+    "jest": "^26.4.2",
+    "replace-in-file-webpack-plugin": "^1",
+    "sass": "^1",
+    "sass-loader": "^10",
+    "style-loader": "^1",
+    "systematize": "^3",
+    "webpack": "^4",
+    "webpack-cli": "^3",
+    "webpack-dev-server": "^3",
+    "webpack-glob-entry": "^2",
+    "webpack-merge": "^5"
+  },
+  "engines": {
+    "node": ">=8"
+  },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "automock": true,
+    "testMatch": ["**/dist/**/*.test.js"],
+    "setupFilesAfterEnv": ["./jest.helper.js"],
+    "projects": [
+      {
+        "displayName": "CORE",
+        "testMatch": ["<rootDir>/dist/core/*.test.js"]
+      },
+      {
+        "displayName": "HANDLERS",
+        "testMatch": ["<rootDir>/dist/handlers/**/*.test.js"]
+      },
+      {
+        "displayName": "SERVICES",
+        "testMatch": ["<rootDir>/dist/services/**/*.test.js"]
+      }
+    ],
+    "moduleNameMapper": {
+      "^@atrackt/core/service$": "<rootDir>/dist/core/service.js",
+      "^@atrackt/core/(.+)$": "<rootDir>/dist/core/$1.js",
+      "^@atrackt/handler-(.+)$": "<rootDir>/dist/handlers/$1/$1.js",
+      "^@atrackt/service-(.+)$": "<rootDir>/dist/services/$1/$1.js"
+    }
+  },
+  "keywords": ["adobe", "analytics", "api", "developer", "dom", "event", "jquery", "library", "handler", "omniture", "platform", "services", "sitecatalyst", "sumologic", "tool", "tracking"],
+  "publishConfig": {
+    "access": "public",
+    "directory": ".dist",
+    "registry": "https://npm.pkg.github.com",
+    "scope": "@atrackt"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github:atrackt/atrackt",
+    "directory": "core"
+  },
+  "scripts": {
+    "build": "lerna run prepare",
+    "demo": "webpack-dev-server --config webpack.demo.coffee",
+    "postpublish": "yarn reset",
+    "release": "lerna publish --create-release github",
+    "reset": "git clean -dfx && yarn",
+    "test2": "webpack --config webpack.test.coffee",
+    "test": "./scripts/test.sh"
+  },
+  "workspaces": ["core", "handlers/*", "services/*"]
+}

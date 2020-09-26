@@ -1,0 +1,117 @@
+{
+  "author": "R Brewster <brewster1134+atrackt@gmail.com>",
+  "bugs": "https://github.com/atrackt/atrackt/issues",
+  "description": "A simple developer API to uniformly implement analytics services",
+  "homepage": "https://github.com/atrackt/atrackt",
+  "license": "SEE LICENSE IN LICENSE",
+  "name": "atrackt",
+  "private": true,
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "devDependencies": {
+    "husky": "^4",
+    "jest": "^26",
+    "lerna": "^3",
+    "sass": "^1",
+    "systematize": "^3"
+  },
+  "engines": {
+    "node": ">=13.2.0"
+  },
+  "jest": {
+    "automock": true,
+    "projects": [
+      {
+        "displayName": "CORE | NODE",
+        "testEnvironment": "node",
+        "testMatch": [
+          "<rootDir>/core/*.test.ts"
+        ]
+      },
+      {
+        "displayName": "CORE | JAVASCRIPT",
+        "testEnvironment": "jsdom",
+        "testMatch": [
+          "<rootDir>/core/*.test.ts"
+        ]
+      },
+      {
+        "displayName": "HANDLERS",
+        "testEnvironment": "jsdom",
+        "testMatch": [
+          "<rootDir>/handlers/**/*.test.ts"
+        ]
+      },
+      {
+        "displayName": "SERVICES | NODE",
+        "testEnvironment": "node",
+        "testMatch": [
+          "<rootDir>/services/**/*.test.ts"
+        ]
+      },
+      {
+        "displayName": "SERVICES | JAVASCRIPT",
+        "testEnvironment": "jsdom",
+        "testMatch": [
+          "<rootDir>/services/**/*.test.ts"
+        ]
+      }
+    ],
+    "moduleNameMapper": {
+      "@atrackt/service_sumo_logic": "<rootDir>/services/sumo_logic/sumo_logic.ts",
+      "@atrackt/core": "<rootDir>/core/core.ts",
+      "@atrackt/core/(.+)": "<rootDir>/core/$1.ts",
+      "@atrackt/handler_(.+)": "<rootDir>/handlers/$1/$1.ts",
+      "@atrackt/service_(.+)": "<rootDir>/services/$1/$1.ts"
+    },
+    "setupFilesAfterEnv": [
+      "./jest.helper.ts"
+    ]
+  },
+  "keywords": [
+    "adobe",
+    "analytics",
+    "api",
+    "developer",
+    "dom",
+    "event",
+    "jquery",
+    "library",
+    "handler",
+    "omniture",
+    "platform",
+    "services",
+    "sitecatalyst",
+    "sumologic",
+    "tool",
+    "tracking"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "directory": ".dist",
+    "registry": "https://npm.pkg.github.com",
+    "scope": "@atrackt"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github:atrackt/atrackt",
+    "directory": "core"
+  },
+  "scripts": {
+    "build": "lerna run prepare",
+    "demo": "webpack-dev-server --config webpack.demo.coffee",
+    "postpublish": "yarn reset",
+    "release": "lerna publish --create-release github",
+    "reset": "git clean -dfx && yarn",
+    "test2": "webpack --config webpack.test.coffee",
+    "test": "./scripts/test.sh"
+  },
+  "workspaces": [
+    "core",
+    "handlers/*",
+    "services/*"
+  ]
+}

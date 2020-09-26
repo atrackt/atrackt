@@ -1,0 +1,17 @@
+{
+  "npmClient": "yarn",
+  "packages": ["core", "handlers/*", "services/*"],
+  "useWorkspaces": true,
+  "version": "independent",
+  "command": {
+    "bootstrap": {
+      "npmClientArgs": ["--ignore-optional", "--no-lockfile", "--production"]
+    },
+    "publish": {
+      "allowBranch": ["master"],
+      "conventionalCommits": true,
+      "ignoreChanges": ["*.md", "LICENSE", "package.json"],
+      "message": "chore(release): publish"
+    }
+  }
+}
