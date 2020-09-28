@@ -1,0 +1,19 @@
+{
+  "description": "Atrackt core library",
+  "homepage": "https://github.com/atrackt/atrackt/tree/master/atrackt/core#readme",
+  "main": "core.ts",
+  "name": "@atrackt/core",
+  "version": "0.0.0-alpha.0",
+  "files": [
+    "core.js*",
+    "console.js*",
+    "handler.js*",
+    "service.js*"
+  ],
+  "repository": {
+    "directory": "core"
+  },
+  "scripts": {
+    "prepare": "webpack --config ../webpack.build.coffee"
+  }
+}

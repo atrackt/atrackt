@@ -1,7 +1,10 @@
-var Service
+interface ServiceConstructor {
+  name: string
+  send: (payload: object, options?: object) => object
+}
 
-export default Service = class Service {
-  constructor() {
-    console.log('Service constructor')
+export default class Service {
+  constructor(service: ServiceConstructor) {
+    console.log('Service constructor', service.name, service.send)
   }
 }
