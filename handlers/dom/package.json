@@ -1,0 +1,23 @@
+{
+  "description": "Atrackt event handler using vanilla javascript",
+  "homepage": "https://github.com/atrackt/atrackt/tree/master/handlers/dom#readme",
+  "name": "@atrackt/handler-dom",
+  "version": "0.0.0-alpha.0",
+  "dependencies": {
+    "@atrackt/core": "0.0.0-alpha.0"
+  },
+  "files": [
+    "dom.ts*"
+  ],
+  "keywords": [
+    "dom0",
+    "javascript",
+    "vanilla"
+  ],
+  "repository": {
+    "directory": "handlers/dom"
+  },
+  "scripts": {
+    "prepare": ""
+  }
+}

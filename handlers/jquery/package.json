@@ -1,0 +1,21 @@
+{
+  "description": "Atrackt event handler using jQuery",
+  "homepage": "https://github.com/atrackt/atrackt/tree/master/handlers/jquery#readme",
+  "name": "@atrackt/handler-jquery",
+  "version": "0.0.0-alpha.0",
+  "dependencies": {
+    "@atrackt/core": "0.0.0-alpha.0"
+  },
+  "files": [
+    "jquery.ts*"
+  ],
+  "keywords": [
+    "jquery"
+  ],
+  "repository": {
+    "directory": "handlers/jquery"
+  },
+  "scripts": {
+    "prepare": ""
+  }
+}

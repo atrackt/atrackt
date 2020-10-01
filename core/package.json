@@ -1,14 +1,13 @@
 {
   "description": "Atrackt core library",
   "homepage": "https://github.com/atrackt/atrackt/tree/master/atrackt/core#readme",
-  "main": "core.ts",
   "name": "@atrackt/core",
   "version": "0.0.0-alpha.0",
   "files": [
-    "core.js*",
-    "console.js*",
-    "handler.js*",
-    "service.js*"
+    "core.ts*",
+    "console.ts*",
+    "handler.ts*",
+    "service.ts*"
   ],
   "repository": {
     "directory": "core"

@@ -10,6 +10,14 @@ const commonConfig = {
   // Automatically clear mock calls and instances between every test
   clearMocks: true,
 
+  // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
+  moduleNameMapper: {
+    '@atrackt/core': '<rootDir>/core/core.ts',
+    '@atrackt/core/(.+)': '<rootDir>/core/$1.ts',
+    '@atrackt/handler-(.+)': '<rootDir>/handlers/$1/$1.ts',
+    '@atrackt/service-(.+)': '<rootDir>/services/$1/$1.ts'
+  },
+
   // A list of paths to modules that run some code to configure or set up the testing framework before each test
   setupFilesAfterEnv: ['./jest.setup.js']
 }
@@ -78,15 +86,7 @@ module.exports = {
   // ],
 
   // An array of file extensions your modules use
-  // moduleFileExtensions: ['js'],
-
-  // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
-  // moduleNameMapper: {
-  //   '^@atrackt/core$': '<rootDir>/core/core.ts',
-  //   '^@atrackt/core/(.+)$': '<rootDir>/core/$1.ts',
-  //   '^@atrackt/handler-(.+)$': '<rootDir>/handlers/$1/$1.ts',
-  //   '^@atrackt/service-(.+)$': '<rootDir>/services/$1/$1.ts',
-  // },
+  // moduleFileExtensions: ['js', 'ts'],
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
   // modulePathIgnorePatterns: [],
@@ -95,7 +95,7 @@ module.exports = {
   notify: true,
 
   // An enum that specifies notification mode. Requires { notify: true }
-  // notifyMode: "failure-change",
+  notifyMode: 'failure-change',
 
   // A preset that is used as a base for Jest's configuration
   // preset: undefined,
