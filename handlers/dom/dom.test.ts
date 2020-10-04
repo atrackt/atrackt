@@ -1,4 +1,4 @@
-import Dom from '@atrackt/handler-dom'
+import '@atrackt/handler-dom'
 
 describe('Dom', () => {
   it('should', () => {

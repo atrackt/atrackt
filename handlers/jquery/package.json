@@ -2,6 +2,7 @@
   "description": "Atrackt event handler using jQuery",
   "homepage": "https://github.com/atrackt/atrackt/tree/master/handlers/jquery#readme",
   "name": "@atrackt/handler-jquery",
+  "type": "module",
   "version": "0.0.0-alpha.0",
   "dependencies": {
     "@atrackt/core": "0.0.0-alpha.0"

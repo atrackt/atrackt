@@ -1,5 +1,6 @@
 import Handler from '@atrackt/core/handler'
 
-export default new Handler({
-  name: 'Jquery'
+new Handler({
+  name: 'Jquery',
+  setEvent: () => {}
 })

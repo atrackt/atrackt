@@ -2,6 +2,7 @@
   "description": "Atrackt event handler using vanilla javascript",
   "homepage": "https://github.com/atrackt/atrackt/tree/master/handlers/dom#readme",
   "name": "@atrackt/handler-dom",
+  "type": "module",
   "version": "0.0.0-alpha.0",
   "dependencies": {
     "@atrackt/core": "0.0.0-alpha.0"

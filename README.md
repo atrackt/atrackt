@@ -25,21 +25,38 @@ atrackt.track({ ..., plugins: ['foo', 'bar'] })
 
 ## Todo: Development
 
-- webpack
-  - add copy-pkg-json-webpack-plugin
+- good example repos
+  - https://github.com/moment/moment
+- lerna
+  - customize package.json
   - generate CHANGELOG
-  - copy README.md, LICENSE, CHANGELOG
-  - build demo
-  - launch demo server
-  - livereload
-  - publish to github packages
-- add [jest](https://jestjs.io)
-  - compile and test single files when changed
-- add CI (github actions/travis/circle)
-- add readme badges
-- add configuration dot-files
-- [majestic?](https://github.com/Raathigesh/majestic)
+  - release README.md, LICENSE, CHANGELOG
+- cross-browser compatibility
+  - browserslist
+  - postcss/auto-prefix
+- [badges](https://shields.io)
+  - npm bundle size
+  - npm download count
+  - npm version
+  - node version
+  - github issues
+  - license
+- g2 to find services
+  - [build/ci/cd](https://www.g2.com/categories/continuous-delivery)
+    - gitlab
+    - github actions
+    - circle
+  - [code coverage](https://www.g2.com/categories/static-code-analysis)
+    - embold
+    - codebeat
+    - codacy
+  - [analysis](https://shields.io/category/analysis)
+    - code climate
+    - snyk
+    - dependabot
 - [husky](https://github.com/typicode/husky)
+- [majestic?](https://github.com/Raathigesh/majestic)
+- remove packages from npm
 
 ##### [Creative Commons Attribution NonCommercial NoDerivatives 4.0 International License](https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode.txt)
 

@@ -1,31 +1,42 @@
 @import 'systematize/systematize.scss'
 
 body
+  font-size: 0.8em
   padding: 1em
   text-align: center
 
-  a
-    border: 0.1em solid black
-    cursor: pointer
+  h4
+    margin-bottom: 0.4em
+    margin-top: 0
+
+  small
     display: block
-    padding: 1em
-    text-decoration: none
-
-    &.console-link
-      background: aliceblue
-      margin-bottom: 1em
-
-    &.track
-      background: burlywood
+    font-size: 0.6em
 
   [data-atrackt-category]
-    border: 0.1em solid lightgrey
-    margin: 1em
-    padding: 1em
+    margin-top: 0.4em
+    padding: 0.4em
+
+  #console-link
+    cursor: pointer
+    padding: 0.2em
+    width: 100%
+
+    #console-info
+      margin-top: 0.2em
 
   #main
     background: aliceblue
+    text-align: left
 
     .set
       background: white
-      text-align: center
+
+    .track
+      cursor: pointer
+      margin-top: 0
+      padding: 0.2em
+      width: 100%
+
+      small
+        margin-bottom: 0.2em

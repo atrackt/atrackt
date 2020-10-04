@@ -15,11 +15,21 @@
     "@babel/preset-env": "^7",
     "@babel/preset-typescript": "^7",
     "@types/jest": "^26",
+    "concurrently": "^5",
+    "css-loader": "^4.3.0",
     "deepmerge": "^4",
-    "in-publish": "^2",
+    "http-server": "^0",
     "jest": "^26",
     "lerna": "^3",
-    "typescript": "^4"
+    "reload": "^3",
+    "sass": "^1",
+    "sass-loader": "^10",
+    "style-loader": "^1",
+    "systematize": "^3",
+    "ts-loader": "^8",
+    "typescript": "^4",
+    "webpack": "^4",
+    "webpack-cli": "^3"
   },
   "engines": {
     "node": ">=13.2.0"
@@ -44,7 +54,7 @@
   "publishConfig": {
     "access": "public",
     "directory": ".dist",
-    "registry": "https://npm.pkg.github.com",
+    "registry": "https://registry.npmjs.org",
     "scope": "@atrackt"
   },
   "repository": {
@@ -52,13 +62,16 @@
     "url": "github:atrackt/atrackt"
   },
   "scripts": {
-    "ci-test": "jest --ci",
     "build": "lerna run prepare",
-    "demo": "webpack-dev-server --config webpack.demo.coffee",
-    "prepublish": "in-publish && tsc",
+    "ci-test": "jest --ci",
+    "demo-browser": "reload --start-page demo/index.html",
+    "demo-server": "http-server .",
+    "demo-ts": "webpack --watch --config webpack.demo.js",
+    "demo": "concurrently --kill-others \"yarn:demo-*\"",
     "postpublish": "yarn reset",
+    "prepublish": "",
     "release": "lerna publish --create-release github",
-    "reset": "git clean -dfx && yarn",
+    "reset": "git clean -dfX && yarn",
     "test": "jest --watch"
   },
   "workspaces": [

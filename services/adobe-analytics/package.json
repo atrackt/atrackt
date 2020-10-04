@@ -2,6 +2,7 @@
   "description": "Atrackt service for Adobe Analytics (formerly Omniture SiteCatalyst)",
   "homepage": "https://github.com/atrackt/atrackt/tree/master/services/adobe-analytics#readme",
   "name": "@atrackt/service-adobe-analytics",
+  "type": "module",
   "version": "0.0.0-alpha.0",
   "dependencies": {
     "@atrackt/core": "0.0.0-alpha.0"

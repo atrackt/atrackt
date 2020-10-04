@@ -2,6 +2,7 @@
   "description": "Atrackt core library",
   "homepage": "https://github.com/atrackt/atrackt/tree/master/atrackt/core#readme",
   "name": "@atrackt/core",
+  "type": "module",
   "version": "0.0.0-alpha.0",
   "files": [
     "core.ts*",

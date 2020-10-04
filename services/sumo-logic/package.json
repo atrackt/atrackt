@@ -2,6 +2,7 @@
   "description": "Atrackt service for SumoLogic",
   "homepage": "https://github.com/atrackt/atrackt/tree/master/services/sumo-logic#readme",
   "name": "@atrackt/service-sumo-logic",
+  "type": "module",
   "version": "0.0.0-alpha.0",
   "dependencies": {
     "@atrackt/core": "0.0.0-alpha.0"

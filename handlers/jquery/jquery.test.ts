@@ -1,4 +1,4 @@
-import Jquery from '@atrackt/handler-jquery'
+import '@atrackt/handler-jquery'
 
 describe('Jquery', () => {
   it('should', () => {
