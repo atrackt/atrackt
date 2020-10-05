@@ -26,7 +26,7 @@ atrackt.track({ ..., plugins: ['foo', 'bar'] })
 ## Todo: Development
 
 - good example repos
-  - https://github.com/moment/moment
+  - ?
 - lerna
   - customize package.json
   - generate CHANGELOG
