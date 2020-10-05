@@ -54,9 +54,9 @@ atrackt.track({ ..., plugins: ['foo', 'bar'] })
     - code climate
     - snyk
     - dependabot
-- [husky](https://github.com/typicode/husky)
 - [majestic?](https://github.com/Raathigesh/majestic)
-- remove packages from npm
+- remove packages from npm registry
+- remove comment from package.json.husky.hooks.pre-commit to resume testing before each commit
 
 ##### [Creative Commons Attribution NonCommercial NoDerivatives 4.0 International License](https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode.txt)
 

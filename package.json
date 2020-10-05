@@ -14,12 +14,15 @@
   "devDependencies": {
     "@babel/preset-env": "^7",
     "@babel/preset-typescript": "^7",
+    "@commitlint/cli": "^11",
+    "@commitlint/config-conventional": "^11",
     "@types/jest": "^26",
     "@typescript-eslint/parser": "^4",
     "concurrently": "^5",
     "css-loader": "^4",
     "deepmerge": "^4",
     "http-server": "^0",
+    "husky": "^4",
     "jest": "^26",
     "lerna": "^3",
     "reload": "^3",
@@ -34,6 +37,12 @@
   },
   "engines": {
     "node": ">=13.2.0"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "# yarn ci-test"
+    }
   },
   "keywords": [
     "adobe",
