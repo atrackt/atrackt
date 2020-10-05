@@ -27,10 +27,6 @@ atrackt.track({ ..., plugins: ['foo', 'bar'] })
 
 - good example repos
   - ?
-- lerna
-  - customize package.json
-  - generate CHANGELOG
-  - release README.md, LICENSE, CHANGELOG
 - cross-browser compatibility
   - browserslist
   - postcss/auto-prefix
@@ -55,8 +51,13 @@ atrackt.track({ ..., plugins: ['foo', 'bar'] })
     - snyk
     - dependabot
 - [majestic?](https://github.com/Raathigesh/majestic)
-- remove packages from npm registry
+- create new orphan branch and re-create conventional commits
 - remove comment from package.json.husky.hooks.pre-commit to resume testing before each commit
+- remove packages from npm registry
+- lerna
+  - customize package.json
+  - generate CHANGELOG
+  - release README.md, LICENSE, CHANGELOG
 
 ##### [Creative Commons Attribution NonCommercial NoDerivatives 4.0 International License](https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode.txt)
 

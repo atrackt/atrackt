@@ -6,11 +6,6 @@
   "license": "SEE LICENSE IN LICENSE",
   "name": "atrackt",
   "private": true,
-  "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ]
-  },
   "devDependencies": {
     "@babel/preset-env": "^7",
     "@babel/preset-typescript": "^7",
@@ -37,12 +32,6 @@
   },
   "engines": {
     "node": ">=13.2.0"
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "# yarn ci-test"
-    }
   },
   "keywords": [
     "adobe",
