@@ -3,14 +3,14 @@ import { AtracktError } from '@atrackt/core'
 
 export default class Console {
   constructor() {
-    if (!this._validate()) {
+    if (!this.validate()) {
       return
     }
     window.atrackt.enableConsole()
-    this._setupConsole()
+    this.setupConsole()
   }
 
-  _validate() {
+  private validate() {
     if (typeof window !== 'object') {
       throw new AtracktError('Console can only be used in the browser')
     }
@@ -22,7 +22,7 @@ export default class Console {
     return window.location.search.includes('atracktConsole') || window.localStorage.getItem('atracktConsole') == 'true'
   }
 
-  _setupConsole() {
+  private setupConsole() {
     // start all console logic
   }
 }

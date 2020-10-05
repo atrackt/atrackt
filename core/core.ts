@@ -3,8 +3,8 @@ interface Scope {
 }
 
 export default class Core {
-  console: boolean
-  services: any
+  private console: boolean
+  private services: any
 
   static assignObjectToVars(args: object, scope: Scope) {
     for (let [key, value] of Object.entries(args)) {
@@ -18,11 +18,11 @@ export default class Core {
     globalThis.atrackt = this
   }
 
-  enableConsole() {
+  public enableConsole() {
     this.console = true
   }
 
-  setService(service: any) {
+  public setService(service: any) {
     if (this.services[service.name]) {
       throw new AtracktError(`${service.name} service was already set`)
     }

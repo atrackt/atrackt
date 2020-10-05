@@ -9,12 +9,12 @@ interface HandlerConstructor {
 export default class Handler extends Core {
   constructor(handler: HandlerConstructor) {
     super()
-    this._validate(handler)
+    this.validate(handler)
     Core.assignObjectToVars(handler, this)
     window.atrackt = this
   }
 
-  _validate(handler: HandlerConstructor) {
+  private validate(handler: HandlerConstructor) {
     if (typeof window === 'undefined') {
       throw new AtracktError('Handlers can only be used in a browser')
     }

@@ -12,12 +12,12 @@ interface ServiceConstructor {
 
 export default class Service {
   constructor(service: ServiceConstructor) {
-    this._validate()
+    this.validate()
     Core.assignObjectToVars(service, this)
     globalThis.atrackt.setService(this)
   }
 
-  _validate() {
+  private validate() {
     if (!(globalThis.atrackt instanceof Object)) {
       if (typeof window === 'undefined') {
         throw new AtracktError('A handler or core must be initialized')
