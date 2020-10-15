@@ -1,3 +1,6 @@
 {
-  "cSpell.words": ["omniture"]
+  "cSpell.words": [
+    "omniture"
+  ],
+  "eslint.enable": true
 }

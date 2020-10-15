@@ -30,13 +30,6 @@ atrackt.track({ ..., plugins: ['foo', 'bar'] })
 - cross-browser compatibility
   - browserslist
   - postcss/auto-prefix
-- [badges](https://shields.io)
-  - npm bundle size
-  - npm download count
-  - npm version
-  - node version
-  - github issues
-  - license
 - g2 to find services
   - [build/ci/cd](https://www.g2.com/categories/continuous-delivery)
     - gitlab
@@ -51,13 +44,27 @@ atrackt.track({ ..., plugins: ['foo', 'bar'] })
     - snyk
     - dependabot
 - [majestic?](https://github.com/Raathigesh/majestic)
-- create new orphan branch and re-create conventional commits
+- PRODUCTION LOGIC
+- documentation
 - remove comment from package.json.husky.hooks.pre-commit to resume testing before each commit
 - remove packages from npm registry
+- create new orphan branch and re-create conventional commits
 - lerna
   - customize package.json
   - generate CHANGELOG
   - release README.md, LICENSE, CHANGELOG
+- [badges](https://shields.io)
+  - analysis tools
+  - build/ci/cd
+  - code coverage
+  - docs
+  - github issues
+  - license
+  - node version
+  - npm bundle size
+  - npm download count
+  - npm version
+
 
 ##### [Creative Commons Attribution NonCommercial NoDerivatives 4.0 International License](https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode.txt)
 
