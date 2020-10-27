@@ -1,6 +1,8 @@
 import Handler from '@atrackt/core/handler'
 
-new Handler({
+const jquery = new Handler({
   name: 'Jquery',
-  setEvent: () => {}
+  setEvents: () => {},
 })
+
+export default jquery

@@ -5,21 +5,22 @@ const merge = require('deepmerge')
 // common config
 const commonConfig = {
   // All imported modules in your tests should be mocked automatically
-  automock: true,
+  automock: false,
 
   // Automatically clear mock calls and instances between every test
   clearMocks: true,
 
   // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
   moduleNameMapper: {
-    '@atrackt/core': '<rootDir>/core/core.ts',
-    '@atrackt/core/(.+)': '<rootDir>/core/$1.ts',
-    '@atrackt/handler-(.+)': '<rootDir>/handlers/$1/$1.ts',
-    '@atrackt/service-(.+)': '<rootDir>/services/$1/$1.ts'
+    '@atrackt/core/(.+)$': '<rootDir>/core/$1.ts',
+    '@atrackt/core$': '<rootDir>/core/core.ts',
+    '@atrackt/handler-(.+)$': '<rootDir>/handlers/$1/$1.ts',
+    '@atrackt/service-(.+)$': '<rootDir>/services/$1/$1.ts',
+    '\\.(sass)$': 'identity-obj-proxy',
   },
 
   // A list of paths to modules that run some code to configure or set up the testing framework before each test
-  setupFilesAfterEnv: ['./jest.setup.js']
+  setupFilesAfterEnv: ['./jest.setup.js'],
 }
 
 module.exports = {
@@ -55,8 +56,8 @@ module.exports = {
       branches: 80,
       functions: 80,
       lines: 80,
-      statements: -10
-    }
+      statements: -10,
+    },
   },
 
   // A path to a custom dependency extractor
@@ -86,7 +87,11 @@ module.exports = {
   // ],
 
   // An array of file extensions your modules use
-  // moduleFileExtensions: ['js', 'ts'],
+  // moduleFileExtensions: ['js', 'sass', 'ts'],
+
+  // moduleNameMapper: {
+  //   '\\.(css|sass)$': 'identity-obj-proxy',
+  // },
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
   // modulePathIgnorePatterns: [],
@@ -105,29 +110,29 @@ module.exports = {
     merge(commonConfig, {
       displayName: 'CORE:javascript',
       testEnvironment: 'jsdom',
-      testMatch: ['<rootDir>/core/*.test.ts']
+      testMatch: ['<rootDir>/core/*.test.ts'],
     }),
     merge(commonConfig, {
       displayName: 'CORE:node',
       testEnvironment: 'node',
-      testMatch: ['<rootDir>/core/*.test.ts']
+      testMatch: ['<rootDir>/core/*.test.ts'],
     }),
     merge(commonConfig, {
       displayName: 'HANDLERS',
       testEnvironment: 'jsdom',
-      testMatch: ['<rootDir>/handlers/**/*.test.ts']
+      testMatch: ['<rootDir>/handlers/**/*.test.ts'],
     }),
     merge(commonConfig, {
       displayName: 'SERVICES:javascript',
       testEnvironment: 'jsdom',
-      testMatch: ['<rootDir>/services/**/*.test.ts']
+      testMatch: ['<rootDir>/services/**/*.test.ts'],
     }),
     merge(commonConfig, {
       displayName: 'SERVICES:node',
       testEnvironment: 'node',
-      testMatch: ['<rootDir>/services/**/*.test.ts']
-    })
-  ]
+      testMatch: ['<rootDir>/services/**/*.test.ts'],
+    }),
+  ],
 
   // Use this configuration option to add custom reporters to Jest
   // reporters: undefined,
@@ -200,7 +205,7 @@ module.exports = {
   // timers: "real",
 
   // A map from regular expressions to paths to transformers
-  // transform: undefined,
+  // transform: {},
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
   // transformIgnorePatterns: [

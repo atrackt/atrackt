@@ -1,6 +1,8 @@
 import Handler from '@atrackt/core/handler'
 
-new Handler({
+const dom = new Handler({
   name: 'Dom',
-  setEvent: () => {}
+  setEvents: () => {},
 })
+
+export default dom

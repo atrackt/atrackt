@@ -1,26 +1,19 @@
-import Core, { AtracktError } from '@atrackt/core'
+import Atrackt, { Failure } from '@atrackt/core'
 
-interface HandlerConstructor {
-  name: string
-  setEvent: object
-  [key: string]: any
-}
-
-export default class Handler extends Core {
+export default class Handler extends Atrackt {
   constructor(handler: HandlerConstructor) {
-    super()
+    super(handler)
     this.validate(handler)
-    Core.assignObjectToVars(handler, this)
-    window.atrackt = this
+    Object.assign(this, handler)
   }
 
-  private validate(handler: HandlerConstructor) {
+  public validate(handler) {
     if (typeof window === 'undefined') {
-      throw new AtracktError('Handlers can only be used in a browser')
+      throw new Failure('Handlers can only be used in a browser')
     }
 
-    if (typeof handler.setEvent !== 'function') {
-      throw new AtracktError('setEvent must be defined')
+    if (typeof handler.setEvents !== 'function') {
+      throw new Failure('setEvents must be defined')
     }
   }
 }
