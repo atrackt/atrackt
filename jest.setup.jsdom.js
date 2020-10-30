@@ -5,4 +5,6 @@ global.context = global.describe
 // the console is auto-instantiated so need to prevent throwing exceptions
 window.Atrackt = {
   enableConsole: () => {},
+  services: {},
+  setService: () => {},
 }

@@ -10,8 +10,8 @@ export default class Service extends Metadata {
   }
 
   private validate(service) {
-    if (typeof globalThis.Atrackt === 'undefined') {
-      if (typeof window === 'undefined') {
+    if (!globalThis.Atrackt) {
+      if (!window) {
         throw new Failure('Core or a handler must be initialized')
       } else {
         throw new Failure('Core must be initialized')

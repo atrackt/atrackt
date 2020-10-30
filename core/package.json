@@ -5,9 +5,11 @@
   "type": "module",
   "version": "0.0.0-alpha.0",
   "files": [
-    "core.ts*",
     "console.ts*",
+    "core.ts*",
+    "failure.ts*",
     "handler.ts*",
+    "metadata.ts*",
     "service.ts*"
   ],
   "repository": {

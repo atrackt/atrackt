@@ -110,31 +110,31 @@ module.exports = {
       testEnvironment: 'jsdom',
       testMatch: ['<rootDir>/core/*.test.ts'],
     }),
-    // merge(commonConfig, {
-    //   displayName: 'CORE:node',
-    //   setupFilesAfterEnv: ['./jest.setup.node.js'],
-    //   testEnvironment: 'node',
-    //   testMatch: ['<rootDir>/core/*.test.ts'],
-    //   testPathIgnorePatterns: ['console.test.ts', 'handler.test.ts'],
-    // }),
-    // merge(commonConfig, {
-    //   displayName: 'HANDLERS',
-    //   setupFilesAfterEnv: ['./jest.setup.jsdom.js'],
-    //   testEnvironment: 'jsdom',
-    //   testMatch: ['<rootDir>/handlers/**/*.test.ts'],
-    // }),
-    // merge(commonConfig, {
-    //   displayName: 'SERVICES:javascript',
-    //   setupFilesAfterEnv: ['./jest.setup.jsdom.js'],
-    //   testEnvironment: 'jsdom',
-    //   testMatch: ['<rootDir>/services/**/*.test.ts'],
-    // }),
-    // merge(commonConfig, {
-    //   displayName: 'SERVICES:node',
-    //   setupFilesAfterEnv: ['./jest.setup.node.js'],
-    //   testEnvironment: 'node',
-    //   testMatch: ['<rootDir>/services/**/*.test.ts'],
-    // }),
+    merge(commonConfig, {
+      displayName: 'CORE:node',
+      setupFilesAfterEnv: ['./jest.setup.node.js'],
+      testEnvironment: 'node',
+      testMatch: ['<rootDir>/core/*.test.ts'],
+      testPathIgnorePatterns: ['console.test.ts', 'handler.test.ts'],
+    }),
+    merge(commonConfig, {
+      displayName: 'HANDLERS',
+      setupFilesAfterEnv: ['./jest.setup.jsdom.js'],
+      testEnvironment: 'jsdom',
+      testMatch: ['<rootDir>/handlers/**/*.test.ts'],
+    }),
+    merge(commonConfig, {
+      displayName: 'SERVICES:javascript',
+      setupFilesAfterEnv: ['./jest.setup.jsdom.js'],
+      testEnvironment: 'jsdom',
+      testMatch: ['<rootDir>/services/**/*.test.ts'],
+    }),
+    merge(commonConfig, {
+      displayName: 'SERVICES:node',
+      setupFilesAfterEnv: ['./jest.setup.node.js'],
+      testEnvironment: 'node',
+      testMatch: ['<rootDir>/services/**/*.test.ts'],
+    }),
   ],
 
   // Use this configuration option to add custom reporters to Jest
