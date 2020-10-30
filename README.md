@@ -1,6 +1,7 @@
 # Atrackt
 
 A library for making complex tracking & analytics easier
+A library for making complex tracking & analytics easier
 
 ## API
 #### via App
@@ -112,8 +113,31 @@ Atrackt.track([DATA], {
 ---
 
 ## Development
+#### Setup Environment
+>###### Install Dependencies
+>- [git](https://git-scm.com)
+>- [node.js](https://nodejs.org)
+>- [yarn](https://yarnpkg.com)
+```sh
+# clone repository
+git clone git@github.com:atrackt/atrackt.git
 
-- `webpack ^5` cause dependency errors
+# change to atrackt directory
+cd atrackt
+
+# configure git
+git config --local include.path ../.gitconfig
+
+# install node dependencies
+yarn
+```
+```sh
+# run tests
+yarn test
+
+# run demo
+yarn demo
+```
 
 ---
 
@@ -168,6 +192,5 @@ Atrackt.track([DATA], {
   - npm bundle size
   - npm download count
   - npm version
-
 
 ##### [Creative Commons Attribution NonCommercial NoDerivatives 4.0 International License](https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode.txt)

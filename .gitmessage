@@ -1,0 +1,11 @@
+# type(scope): summary
+# [BLANK LINE]
+# itemized changes
+#
+# TYPES:
+# NO VERSION CHANGE: build, chore, ci, docs, perf, refactor, style, test
+# PATCH BUMP: fix
+# MINOR BUMP: feat
+# MAJOR BUMP: BREAKING CHANGE, [TYPE]!
+
+type(scope): summary

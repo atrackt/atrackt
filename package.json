@@ -63,7 +63,6 @@
   },
   "scripts": {
     "build": "lerna run prepare",
-    "ci-test": "jest --ci",
     "demo-browser": "reload --start-page demo/index.html",
     "demo-server": "http-server .",
     "demo-ts": "webpack --watch --config webpack.demo.js",
@@ -72,6 +71,7 @@
     "prepublish": "",
     "release": "lerna publish --create-release github",
     "reset": "git clean -dfX && yarn",
+    "test-ci": "jest --ci",
     "test": "jest --watch"
   },
   "workspaces": [
