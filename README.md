@@ -149,7 +149,7 @@ Atrackt.track([DATA], {
     - dependabot
 - [majestic?](https://github.com/Raathigesh/majestic)
 - PRODUCTION LOGIC
-- documentation
+- [jsdoc](https://jsdoc.app/tags-member.html)
 - remove comment from package.json.husky.hooks.pre-commit to resume testing before each commit
 - remove packages from npm registry
 - create new orphan branch and re-create conventional commits

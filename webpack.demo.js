@@ -28,6 +28,8 @@ module.exports = {
     extensions: ['.js', '.ts'],
     alias: {
       '@atrackt/core$': path.resolve(__dirname, 'core', 'core.ts'),
+      '@atrackt/core/handler$': path.resolve(__dirname, 'core', 'handler.ts'),
+      '@atrackt/core/service$': path.resolve(__dirname, 'core', 'service.ts'),
       '@atrackt/handler-dom$': path.resolve(
         __dirname,
         'handlers',

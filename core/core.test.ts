@@ -1,41 +1,28 @@
-// import Atrackt, { Core, Failure } from '@atrackt/core'
 import * as modules from '@atrackt/core'
 import Service from '@atrackt/core/service'
 
-// jest.spyOn(Core, 'foo').mockImplementation(() => {
-//   'MOCK.FOO'
-// })
+jest.mock('@atrackt/core/service')
 
-jest.mock('@atrackt/core/service', () => {})
-
-// jest.mock('@atrackt/core', () => {
-//   const moduleMock = jest.requireActual('@atrackt/core')
-
-//   return {
-//     ...moduleMock,
-//     Core: jest.fn(),
-//   }
-// })
+const Atrackt = modules.default
+const Core = modules.Core
 
 describe('Atrackt', () => {
-  let atrackt = undefined
-  beforeEach(() => {
-    atrackt = new modules.default()
-  })
+  let atrackt
 
   describe('constructor', () => {
-    let CoreConstructorMock = undefined
-
     beforeAll(() => {
-      CoreConstructorMock = jest
-        .spyOn(modules as any, 'Core')
-        .mockImplementation(() => {
-          return {
-            setService: () => {},
-            track: () => {},
-            enableConsole: () => {},
-          }
-        })
+      // @ts-ignore
+      modules.Core = jest.fn(() => {
+        return {
+          enableConsole: () => {},
+          setService: () => {},
+          track: () => {},
+        }
+      })
+    })
+
+    beforeEach(() => {
+      atrackt = new Atrackt()
     })
 
     afterAll(() => {
@@ -50,50 +37,50 @@ describe('Atrackt', () => {
 
       // handler api methods should be undefined
       expect(atrackt.enableConsole).toBeUndefined()
+    })
 
-      expect(CoreConstructorMock).toBeCalled()
+    it('should create a core instance', () => {
+      expect(modules.Core).toBeCalledTimes(1)
+    })
+
+    it('should expose atrackt global', () => {
+      expect(globalThis.Atrackt).toBe(atrackt)
     })
 
     context('when initialized from a handler', () => {
-      beforeEach(() => {
-        class Handler extends modules.default {}
-        atrackt = new Handler()
+      let HandlerClass
+
+      beforeAll(() => {
+        HandlerClass = class Handler extends Atrackt {}
       })
 
-      it('should expose the api', () => {
+      beforeEach(() => {
+        atrackt = new HandlerClass()
+      })
+
+      it('should expose the handler api', () => {
         expect(atrackt.enableConsole.name).toEqual('bound enableConsole')
       })
-    })
-
-    it('should become global', () => {
-      expect(globalThis.Atrackt).toBe(atrackt)
     })
   })
 })
 
 describe('Core', () => {
-  let core = undefined
-
-  beforeEach(() => {
-    core = new modules.Core()
-    globalThis.Atrackt = core
-  })
+  let core
 
   describe('constructor', () => {
+    beforeEach(() => {
+      core = new Core()
+    })
+
     it('should create all defaults', () => {
-      expect(core.callbacks).toEqual({
-        before: [],
-        after: [],
-      })
       expect(core.console).toBe(false)
-      expect(core.data).toEqual({})
-      expect(core.options).toEqual({})
       expect(core.services).toEqual({})
     })
 
-    context('without a configuration', () => {
+    context('without passing a configuration', () => {
       beforeEach(() => {
-        core = new modules.Core()
+        core = new Core()
       })
 
       it('should set a default', () => {
@@ -102,22 +89,23 @@ describe('Core', () => {
     })
 
     context('with a custom configuration', () => {
+      const coreConfig = {
+        custom: 'config',
+      }
+
       beforeEach(() => {
-        core = new modules.Core({
-          custom: 'config',
-        })
+        core = new Core(coreConfig)
       })
 
       it('should set a default', () => {
-        expect(core.config).toEqual({
-          custom: 'config',
-        })
+        expect(core.config).toEqual(coreConfig)
       })
     })
   })
 
   describe('enableConsole', () => {
     beforeEach(() => {
+      core = new Core()
       core.enableConsole()
     })
 
@@ -126,137 +114,46 @@ describe('Core', () => {
     })
   })
 
-  describe.skip('setService', () => {
-    let serviceObject = undefined
-    // let ServiceConstructorMock = undefined
-
-    // beforeAll(() => {
-    //   ServiceConstructorMock = jest
-    //     .spyOn(modules as any, 'Core')
-    //     .mockImplementation(() => {
-    //       return {
-    //         setService: () => {},
-    //         track: () => {},
-    //         enableConsole: () => {},
-    //       }
-    //     })
-    // })
-
-    // afterAll(() => {
-    //   // @ts-ignore
-    //   modules.Core.mockRestore()
-    // })
-
-    context('with valid service', () => {
-      beforeEach(() => {
-        serviceObject = {
-          name: 'Test Service',
-        }
-        core.setService(serviceObject)
-      })
-
-      it('should register the service', () => {
-        console.log(core.services)
-
-        expect(core.services['Test Service']).toEqual(serviceObject)
-      })
-    })
-  })
-})
-
-/*
-describe(Core, () => {
-  let atracktInstance = undefined
-
-  beforeEach(() => {
-    atracktInstance = new Core()
-  })
-
-  context('when initialized', () => {
-    it('should become global', () => {
-      expect(globalThis.Atrackt).toBeInstanceOf(Atrackt)
-    })
-
-    it('should set defaults', () => {
-      expect(atracktInstance.console).toBe(false)
-      expect(atracktInstance.services).toEqual({})
-    })
-  })
-
-  describe('.enableConsole', () => {
-    it('should set console to true', () => {
-      atracktInstance.enableConsole()
-
-      expect(atracktInstance.console).toBe(true)
-    })
-  })
-
-  describe('.setService', () => {
-    let service = undefined
+  describe('setService', () => {
+    const serviceObject = {
+      name: 'Test Service',
+    }
 
     beforeAll(() => {
-      class Service {}
-
       // @ts-ignore
-      service = new Service({
-        name: 'test service',
-        submit: (payload, options) => {
-          return payload
-        },
-      })
+      Service.prototype.constructor.mockImplementation(() => {})
     })
 
     beforeEach(() => {
-      atracktInstance.setService(service)
+      core = new Core()
     })
 
-    it('should register a new service', () => {
-      expect(atracktInstance.services['test service'].name).toBe('test service')
+    afterEach(() => {
+      core.services = {}
     })
 
-    it('should prevent duplicate services', () => {
-      console.log('service', service)
+    context('with a new service', () => {
+      it('should register the service', () => {
+        core.setService(serviceObject)
 
-      let setDuplicateService = () => {
-        atracktInstance.setService(service)
-      }
+        expect(core.services['Test Service']).toBeInstanceOf(Service)
+        expect(Service).toBeCalledTimes(1)
+      })
+    })
 
-      expect(setDuplicateService).toThrowError(Failure)
+    context('with a service already registered', () => {
+      it('should prevent duplicate services', () => {
+        core.setService(serviceObject)
+
+        const duplicateService = () => {
+          core.setService(serviceObject)
+        }
+
+        expect(duplicateService).toThrow()
+        expect(Object.entries(core.services)).toHaveLength(1)
+        expect(Service).toHaveBeenNthCalledWith(1, serviceObject)
+        expect(Service).not.toHaveBeenCalledTimes(2)
+      })
     })
   })
 })
-
-// describ, () => {
-//   let metadata = undefined
-
-//   beforeEach(() => {
-//     metadata = ne()
-//   })
-
-//   it('should set defaults', () => {
-//     expect(metadata.data).toEqual({})
-//     expect(metadata.options).toEqual({})
-//     expect(metadata.callbacks).toEqual({
-//       before: [],
-//       after: [],
-//     })
-//   })
-// })
-
-describe(Failure, () => {
-  let failure = undefined
-
-  beforeAll(() => {
-    failure = new Failure('test error')
-  })
-
-  it('should namespace the error', () => {
-    expect(failure.name).toBe('Atrackt Error')
-  })
-
-  it('should extend Error', () => {
-    expect(failure.message).toBe('test error')
-    expect(failure).toBeInstanceOf(Error)
-  })
-})
-*/

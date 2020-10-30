@@ -1,18 +1,18 @@
+import Failure from '@atrackt/core/failure'
+import Metadata from '@atrackt/core/metadata'
 import Service from '@atrackt/core/service'
 
-// the Atrackt class defines the public API
-// this should not include any business logic
 export default class Atrackt {
   [api: string]: Function
 
   constructor(coreHandler: CoreConstructor = {}) {
     const core = new exports.Core(coreHandler.config)
 
-    // define api...
+    // define core api...
     this.setService = core.setService.bind(core)
     this.track = core.track.bind(core)
 
-    // handler only api
+    // define handler api
     if (this.constructor.name === 'Handler') {
       this.enableConsole = core.enableConsole.bind(core)
     }
@@ -22,51 +22,34 @@ export default class Atrackt {
   }
 }
 
-export class Core {
-  callbacks: object
-  config: object
-  console: boolean
-  data: object
-  options: object
-  services: object
+export class Core extends Metadata {
+  config: object // config for atrackt functionality
+  console: boolean // flag for when console is visible
+  services: object // stores all registered services
 
-  constructor(config = {}) {
-    this.callbacks = {
-      before: [],
-      after: [],
-    }
+  constructor(config: object = {}) {
+    super()
     this.config = config || {}
     this.console = false
-    this.data = {}
-    this.options = {}
     this.services = {}
   }
 
-  public enableConsole() {
+  enableConsole() {
     this.console = true
   }
 
-  public setService(serviceObject: ServiceConstructor) {
-    let serviceName = serviceObject.name
+  setService(serviceObject: ServiceConstructor) {
+    const serviceName = serviceObject.name
 
     if (this.services[serviceName]) {
       throw new Failure(`${serviceName} service was already set`)
     }
 
-    let serviceInstance = new Service(serviceObject)
+    const serviceInstance = new Service(serviceObject)
     this.services[serviceName] = serviceInstance
   }
 
-  public track(data: object, options: object = {}) {
-    return { data, options }
-  }
-}
-
-export class Failure extends Error {
-  name: string
-
-  constructor(message: string) {
-    super(message)
-    this.name = 'Atrackt Error'
+  track(payload: object, options: object = {}) {
+    return { payload, options }
   }
 }

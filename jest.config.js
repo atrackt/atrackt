@@ -4,26 +4,23 @@ const merge = require('deepmerge')
 
 // common config
 const commonConfig = {
-  // All imported modules in your tests should be mocked automatically
-  automock: false,
-
   // Automatically clear mock calls and instances between every test
   clearMocks: true,
 
   // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
   moduleNameMapper: {
-    '@atrackt/core/(.+)$': '<rootDir>/core/$1.ts',
     '@atrackt/core$': '<rootDir>/core/core.ts',
+    '@atrackt/core/(.+)$': '<rootDir>/core/$1.ts',
     '@atrackt/handler-(.+)$': '<rootDir>/handlers/$1/$1.ts',
     '@atrackt/service-(.+)$': '<rootDir>/services/$1/$1.ts',
     '\\.(sass)$': 'identity-obj-proxy',
   },
-
-  // A list of paths to modules that run some code to configure or set up the testing framework before each test
-  setupFilesAfterEnv: ['./jest.setup.js'],
 }
 
 module.exports = {
+  // All imported modules in your tests should be mocked automatically
+  // automock: false,
+
   // Stop running tests after `n` failures
   // bail: 0,
 
@@ -109,29 +106,35 @@ module.exports = {
   projects: [
     merge(commonConfig, {
       displayName: 'CORE:javascript',
+      setupFilesAfterEnv: ['./jest.setup.jsdom.js'],
       testEnvironment: 'jsdom',
       testMatch: ['<rootDir>/core/*.test.ts'],
     }),
-    merge(commonConfig, {
-      displayName: 'CORE:node',
-      testEnvironment: 'node',
-      testMatch: ['<rootDir>/core/*.test.ts'],
-    }),
-    merge(commonConfig, {
-      displayName: 'HANDLERS',
-      testEnvironment: 'jsdom',
-      testMatch: ['<rootDir>/handlers/**/*.test.ts'],
-    }),
-    merge(commonConfig, {
-      displayName: 'SERVICES:javascript',
-      testEnvironment: 'jsdom',
-      testMatch: ['<rootDir>/services/**/*.test.ts'],
-    }),
-    merge(commonConfig, {
-      displayName: 'SERVICES:node',
-      testEnvironment: 'node',
-      testMatch: ['<rootDir>/services/**/*.test.ts'],
-    }),
+    // merge(commonConfig, {
+    //   displayName: 'CORE:node',
+    //   setupFilesAfterEnv: ['./jest.setup.node.js'],
+    //   testEnvironment: 'node',
+    //   testMatch: ['<rootDir>/core/*.test.ts'],
+    //   testPathIgnorePatterns: ['console.test.ts', 'handler.test.ts'],
+    // }),
+    // merge(commonConfig, {
+    //   displayName: 'HANDLERS',
+    //   setupFilesAfterEnv: ['./jest.setup.jsdom.js'],
+    //   testEnvironment: 'jsdom',
+    //   testMatch: ['<rootDir>/handlers/**/*.test.ts'],
+    // }),
+    // merge(commonConfig, {
+    //   displayName: 'SERVICES:javascript',
+    //   setupFilesAfterEnv: ['./jest.setup.jsdom.js'],
+    //   testEnvironment: 'jsdom',
+    //   testMatch: ['<rootDir>/services/**/*.test.ts'],
+    // }),
+    // merge(commonConfig, {
+    //   displayName: 'SERVICES:node',
+    //   setupFilesAfterEnv: ['./jest.setup.node.js'],
+    //   testEnvironment: 'node',
+    //   testMatch: ['<rootDir>/services/**/*.test.ts'],
+    // }),
   ],
 
   // Use this configuration option to add custom reporters to Jest
@@ -162,6 +165,9 @@ module.exports = {
 
   // The paths to modules that run some code to configure or set up the testing environment before each test
   // setupFiles: [],
+
+  // A list of paths to modules that run some code to configure or set up the testing framework before each test
+  // setupFilesAfterEnv: [],
 
   // The number of seconds after which a test is considered as slow and reported as such in the results.
   // slowTestThreshold: 5,

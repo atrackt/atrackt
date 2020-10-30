@@ -1,4 +1,5 @@
-import Atrackt, { Failure } from '@atrackt/core'
+import Atrackt from '@atrackt/core'
+import Failure from '@atrackt/core/failure'
 
 export default class Handler extends Atrackt {
   constructor(handler: HandlerConstructor) {

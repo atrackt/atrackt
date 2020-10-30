@@ -1,6 +1,6 @@
 import Handler from '@atrackt/core/handler'
 
-describe(Handler, () => {
+describe.skip('Handler', () => {
   context('when something', () => {
     it('should', () => {
       expect(true).toBe(true)

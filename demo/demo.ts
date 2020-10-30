@@ -1,10 +1,12 @@
 import './demo.sass'
+import Atrackt from '@atrackt/handler-dom'
+import '@atrackt/core/console'
 
-window.atrackt.setService({
+Atrackt.setService({
   name: 'Demo Service',
-  send: () => {}
+  submit: () => {},
 })
 
-window.atrackt.setEvent({
-  click: 'a'
+Atrackt.setEvents({
+  click: 'a',
 })

@@ -1,7 +1,9 @@
-import { Failure } from '@atrackt/core'
+import Metadata from '@atrackt/core/metadata'
+import Failure from '@atrackt/core/failure'
 
-export default class Service {
+export default class Service extends Metadata {
   constructor(service: ServiceConstructor) {
+    super()
     this.validate(service)
     Object.assign(this, service)
     globalThis.Atrackt.setService(this)
