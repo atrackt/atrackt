@@ -103,56 +103,82 @@ describe('Core', () => {
     })
   })
 
-  describe('enableConsole', () => {
-    beforeEach(() => {
-      core = new Core()
-      core.enableConsole()
-    })
+  describe('instance methods', () => {
+    describe('enableConsole', () => {
+      beforeEach(() => {
+        core = new Core()
+        core.enableConsole()
+      })
 
-    it('should set console to true', () => {
-      expect(core.console).toBe(true)
-    })
-  })
-
-  describe('setService', () => {
-    const serviceObject = {
-      name: 'Test Service',
-    }
-
-    beforeAll(() => {
-      // @ts-ignore
-      Service.prototype.constructor.mockImplementation(() => {})
-    })
-
-    beforeEach(() => {
-      core = new Core()
-    })
-
-    afterEach(() => {
-      core.services = {}
-    })
-
-    context('with a new service', () => {
-      it('should register the service', () => {
-        core.setService(serviceObject)
-
-        expect(core.services['Test Service']).toBeInstanceOf(Service)
-        expect(Service).toBeCalledTimes(1)
+      it('should set console to true', () => {
+        expect(core.console).toBe(true)
       })
     })
 
-    context('with a service already registered', () => {
-      it('should prevent duplicate services', () => {
-        core.setService(serviceObject)
+    describe('setService', () => {
+      const serviceObject = {
+        name: 'Test Service',
+      }
 
-        const duplicateService = () => {
+      beforeAll(() => {
+        // @ts-ignore
+        Service.prototype.constructor.mockImplementation(() => {})
+      })
+
+      beforeEach(() => {
+        core = new Core()
+      })
+
+      afterEach(() => {
+        core.services = {}
+      })
+
+      context('with a new service', () => {
+        it('should register the service', () => {
           core.setService(serviceObject)
-        }
 
-        expect(duplicateService).toThrow()
-        expect(Object.entries(core.services)).toHaveLength(1)
-        expect(Service).toHaveBeenNthCalledWith(1, serviceObject)
-        expect(Service).not.toHaveBeenCalledTimes(2)
+          expect(core.services['Test Service']).toBeInstanceOf(Service)
+          expect(Service).toBeCalledTimes(1)
+        })
+      })
+
+      context('with a service already registered', () => {
+        it('should prevent duplicate services', () => {
+          core.setService(serviceObject)
+
+          const duplicateService = () => {
+            core.setService(serviceObject)
+          }
+
+          expect(duplicateService).toThrow()
+          expect(Object.entries(core.services)).toHaveLength(1)
+          expect(Service).toHaveBeenNthCalledWith(1, serviceObject)
+          expect(Service).not.toHaveBeenCalledTimes(2)
+        })
+      })
+    })
+  })
+
+  describe('class methods', () => {
+    describe('getFunctionArguments', () => {
+      it('should return an array of accepted argument names', () => {
+        // with a single argument
+        expect(Core.getFunctionArguments((singleArg) => {})).toEqual([
+          'singleArg',
+        ])
+
+        // with a multiple arguments
+        expect(Core.getFunctionArguments((arg1, arg2) => {})).toEqual([
+          'arg1',
+          'arg2',
+        ])
+
+        // with multiple arguments and defaults
+        expect(
+          Core.getFunctionArguments(
+            (defaultArg1 = 'foo', defaultArg2 = 'bar') => {}
+          )
+        ).toEqual(['defaultArg1', 'defaultArg2'])
       })
     })
   })

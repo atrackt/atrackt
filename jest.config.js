@@ -115,7 +115,7 @@ module.exports = {
       setupFilesAfterEnv: ['./jest.setup.node.js'],
       testEnvironment: 'node',
       testMatch: ['<rootDir>/core/*.test.ts'],
-      testPathIgnorePatterns: ['console.test.ts', 'handler.test.ts'],
+      testPathIgnorePatterns: ['console.test.ts'],
     }),
     merge(commonConfig, {
       displayName: 'HANDLERS',

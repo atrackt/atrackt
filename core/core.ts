@@ -34,11 +34,11 @@ export class Core extends Metadata {
     this.services = {}
   }
 
-  enableConsole() {
+  private enableConsole() {
     this.console = true
   }
 
-  setService(serviceObject: ServiceConstructor) {
+  private setService(serviceObject: ServiceConstructor) {
     const serviceName = serviceObject.name
 
     if (this.services[serviceName]) {
@@ -47,9 +47,55 @@ export class Core extends Metadata {
 
     const serviceInstance = new Service(serviceObject)
     this.services[serviceName] = serviceInstance
+
+    return serviceInstance
   }
 
-  track(payload: object, options: object = {}) {
+  private track(payload: object, options: object = {}) {
     return { payload, options }
   }
+
+  // class methods
+  public static getFunctionArguments(func: Function) {
+    let funcString = func.toString()
+
+    // get arguments in parens
+    let functionParens = funcString.match(/\(([^{}]*)\)/)[1]
+
+    // if parens are empty...
+    if (functionParens) {
+      return functionParens.replace(/\s/g, '').split(',')
+
+      // babel has moved the arguments into the function to declare vars
+    } else {
+      return funcString
+        .match(/var ([^=]+)/g)
+        .map((m) => m.replace(/(var|\s)/g, ''))
+    }
+  }
+
+  public static getFunctionReturn(func: Function) {
+    return func
+      .toString()
+      .replace(/\s/g, '')
+      .match(/return(.+);\}$/)[1]
+  }
 }
+
+// function () {
+//   var defaultArg = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'foo';
+// }
+
+let funky = (defaultArg = 'foo', party, animal = 'boi', boo = true) => {
+  console.log('this is my funky function')
+  console.log("(defaultArg = 'foo', party, animal='boi', boo = true)")
+  console.log(defaultArg, party, animal, boo)
+  return true
+}
+
+// console.log(funky.toString())
+
+// function () {
+//   var defaultArg = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'foo';
+//   var party = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'boy';
+// }

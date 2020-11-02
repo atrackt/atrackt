@@ -8,7 +8,9 @@ describe(Console, function () {
 
     beforeEach(() => {
       atracktEnableConsole = jest.spyOn(window.Atrackt, 'enableConsole')
+      // @ts-ignore
       consoleSetupConsole = jest.spyOn(Console.prototype, 'setupConsole')
+      // @ts-ignore
       consoleValidate = jest.spyOn(Console.prototype, 'validate')
     })
 

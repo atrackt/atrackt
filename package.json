@@ -7,15 +7,18 @@
   "name": "atrackt",
   "private": true,
   "devDependencies": {
+    "@babel/core": "^7",
     "@babel/preset-env": "^7",
     "@babel/preset-typescript": "^7",
     "@commitlint/cli": "^11",
     "@commitlint/config-conventional": "^11",
+    "@octokit/core": "^3",
     "@types/jest": "^26",
     "@typescript-eslint/parser": "^4",
     "concurrently": "^5",
     "css-loader": "^5",
     "deepmerge": "^4",
+    "eslint": "^7",
     "http-server": "^0",
     "husky": "^4",
     "identity-obj-proxy": "^3",
@@ -30,6 +33,11 @@
     "typescript": "^4",
     "webpack": "^5",
     "webpack-cli": "^4"
+  },
+  "devDependenciesUnmet": {
+    "@babel/core": "@babel/preset-env, @babel/preset-typescript",
+    "@octokit/core": "lerna",
+    "eslint": "@typescript-eslint/parser"
   },
   "engines": {
     "node": ">=13.2.0"
@@ -72,7 +80,7 @@
     "release": "lerna publish --create-release github",
     "reset": "git clean -dfX && yarn",
     "test-ci": "jest --ci",
-    "test": "jest --watch"
+    "test": "jest --verbose --watch"
   },
   "workspaces": [
     "core",

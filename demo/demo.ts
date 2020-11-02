@@ -4,7 +4,12 @@ import '@atrackt/core/console'
 
 Atrackt.setService({
   name: 'Demo Service',
-  submit: () => {},
+  submit: (payload, options) => {
+    console.log('DEMO SERVICE')
+    console.log(' => Payload', payload)
+    console.log(' => Options', options)
+    return payload
+  },
 })
 
 Atrackt.setEvents({

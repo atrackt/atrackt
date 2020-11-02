@@ -11,7 +11,7 @@ export default class Console {
     this.setupConsole()
   }
 
-  validate() {
+  private validate() {
     if (!window) {
       throw new Failure('Console can only be used in the browser')
     }
@@ -26,7 +26,7 @@ export default class Console {
     )
   }
 
-  setupConsole() {
+  private setupConsole() {
     // start all console logic
   }
 }

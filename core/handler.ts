@@ -8,7 +8,7 @@ export default class Handler extends Atrackt {
     Object.assign(this, handler)
   }
 
-  public validate(handler) {
+  private validate(handler) {
     if (typeof window === 'undefined') {
       throw new Failure('Handlers can only be used in a browser')
     }
