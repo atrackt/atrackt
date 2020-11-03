@@ -80,7 +80,7 @@
     "release": "lerna publish --create-release github",
     "reset": "git clean -dfX && yarn",
     "test-ci": "jest --ci",
-    "test": "jest --verbose --watch"
+    "test": "jest --verbose --watchAll"
   },
   "workspaces": [
     "core",
