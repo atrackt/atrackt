@@ -6,7 +6,7 @@ jest.mock('@atrackt/core/service')
 const Atrackt = modules.default
 const Core = modules.Core
 
-describe('Atrackt', () => {
+describe(Atrackt, () => {
   let atrackt
 
   describe('constructor', () => {
@@ -65,11 +65,11 @@ describe('Atrackt', () => {
   })
 })
 
-describe('Core', () => {
+describe(Core, () => {
   let core
 
   describe('constructor', () => {
-    beforeEach(() => {
+    beforeAll(() => {
       core = new Core()
     })
 
@@ -79,7 +79,7 @@ describe('Core', () => {
     })
 
     context('without passing a configuration', () => {
-      beforeEach(() => {
+      beforeAll(() => {
         core = new Core()
       })
 
@@ -93,7 +93,7 @@ describe('Core', () => {
         custom: 'config',
       }
 
-      beforeEach(() => {
+      beforeAll(() => {
         core = new Core(coreConfig)
       })
 
@@ -105,7 +105,7 @@ describe('Core', () => {
 
   describe('instance methods', () => {
     describe('enableConsole', () => {
-      beforeEach(() => {
+      beforeAll(() => {
         core = new Core()
         core.enableConsole()
       })
@@ -123,9 +123,6 @@ describe('Core', () => {
       beforeAll(() => {
         // @ts-ignore
         Service.prototype.constructor.mockImplementation(() => {})
-      })
-
-      beforeEach(() => {
         core = new Core()
       })
 
@@ -162,6 +159,9 @@ describe('Core', () => {
   describe('class methods', () => {
     describe('getFunctionArguments', () => {
       it('should return an array of accepted argument names', () => {
+        // with no arguments
+        expect(Core.getFunctionArguments(() => {})).toEqual([])
+
         // with a single argument
         expect(Core.getFunctionArguments((singleArg) => {})).toEqual([
           'singleArg',
@@ -179,6 +179,26 @@ describe('Core', () => {
             (defaultArg1 = 'foo', defaultArg2 = 'bar') => {}
           )
         ).toEqual(['defaultArg1', 'defaultArg2'])
+      })
+    })
+
+    describe('getFunctionReturn', () => {
+      it('should return an array of accepted argument names', () => {
+        // returns a single line object
+        expect(
+          Core.getFunctionReturn(() => {
+            return true
+          })
+        ).toEqual('true')
+
+        // returns a multi-line object
+        expect(
+          Core.getFunctionReturn(() => {
+            return {
+              foo: true,
+            }
+          })
+        ).toEqual('{foo:true}')
       })
     })
   })
