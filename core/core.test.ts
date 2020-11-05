@@ -1,75 +1,11 @@
-import * as modules from '@atrackt/core'
 import Service from '@atrackt/core/service'
+const Core = jest.requireActual('@atrackt/core/core').default
 
-jest.mock('@atrackt/core/service')
-
-const Atrackt = modules.default
-const Core = modules.Core
-
-describe(Atrackt, () => {
-  let atrackt
-
-  describe('constructor', () => {
-    beforeAll(() => {
-      // @ts-ignore
-      modules.Core = jest.fn(() => {
-        return {
-          enableConsole: () => {},
-          setService: () => {},
-          track: () => {},
-        }
-      })
-    })
-
-    beforeEach(() => {
-      atrackt = new Atrackt()
-    })
-
-    afterAll(() => {
-      // @ts-ignore
-      modules.Core.mockRestore()
-    })
-
-    it('should expose the api', () => {
-      // core methods should all be bound
-      expect(atrackt.setService.name).toEqual('bound setService')
-      expect(atrackt.track.name).toEqual('bound track')
-
-      // handler api methods should be undefined
-      expect(atrackt.enableConsole).toBeUndefined()
-    })
-
-    it('should create a core instance', () => {
-      expect(modules.Core).toBeCalledTimes(1)
-    })
-
-    it('should expose atrackt global', () => {
-      expect(globalThis.Atrackt).toBe(atrackt)
-    })
-
-    context('when initialized from a handler', () => {
-      let HandlerClass
-
-      beforeAll(() => {
-        HandlerClass = class Handler extends Atrackt {}
-      })
-
-      beforeEach(() => {
-        atrackt = new HandlerClass()
-      })
-
-      it('should expose the handler api', () => {
-        expect(atrackt.enableConsole.name).toEqual('bound enableConsole')
-      })
-    })
-  })
-})
-
-describe(Core, () => {
+describe('Core', () => {
   let core
 
   describe('constructor', () => {
-    beforeAll(() => {
+    beforeEach(() => {
       core = new Core()
     })
 
@@ -78,26 +14,19 @@ describe(Core, () => {
       expect(core.services).toEqual({})
     })
 
-    context('without passing a configuration', () => {
-      beforeAll(() => {
-        core = new Core()
-      })
-
+    context('without passing a config', () => {
       it('should set a default', () => {
         expect(core.config).toEqual({})
       })
     })
 
-    context('with a custom configuration', () => {
-      const coreConfig = {
-        custom: 'config',
-      }
-
-      beforeAll(() => {
-        core = new Core(coreConfig)
-      })
-
+    context('when passing a config', () => {
       it('should set a default', () => {
+        const coreConfig = {
+          custom: 'config',
+        }
+        core = new Core(coreConfig)
+
         expect(core.config).toEqual(coreConfig)
       })
     })
@@ -105,25 +34,24 @@ describe(Core, () => {
 
   describe('instance methods', () => {
     describe('enableConsole', () => {
-      beforeAll(() => {
+      it('should set console to true', () => {
         core = new Core()
         core.enableConsole()
-      })
 
-      it('should set console to true', () => {
         expect(core.console).toBe(true)
       })
     })
 
     describe('setService', () => {
-      const serviceObject = {
-        name: 'Test Service',
-      }
+      let setServiceArgServiceObject
+      let setServiceReturn
 
-      beforeAll(() => {
-        // @ts-ignore
-        Service.prototype.constructor.mockImplementation(() => {})
+      beforeEach(() => {
+        setServiceArgServiceObject = {
+          name: 'Test Service',
+        }
         core = new Core()
+        setServiceReturn = core.setService(setServiceArgServiceObject)
       })
 
       afterEach(() => {
@@ -132,8 +60,7 @@ describe(Core, () => {
 
       context('with a new service', () => {
         it('should register the service', () => {
-          core.setService(serviceObject)
-
+          expect(setServiceReturn).toBeInstanceOf(Service)
           expect(core.services['Test Service']).toBeInstanceOf(Service)
           expect(Service).toBeCalledTimes(1)
         })
@@ -141,19 +68,20 @@ describe(Core, () => {
 
       context('with a service already registered', () => {
         it('should prevent duplicate services', () => {
-          core.setService(serviceObject)
-
           const duplicateService = () => {
-            core.setService(serviceObject)
+            core.setService(setServiceArgServiceObject)
           }
 
+          expect(setServiceReturn).toBeInstanceOf(Service)
           expect(duplicateService).toThrow()
           expect(Object.entries(core.services)).toHaveLength(1)
-          expect(Service).toHaveBeenNthCalledWith(1, serviceObject)
+          expect(Service).toHaveBeenNthCalledWith(1, setServiceArgServiceObject)
           expect(Service).not.toHaveBeenCalledTimes(2)
         })
       })
     })
+
+    describe.skip('track', () => {})
   })
 
   describe('class methods', () => {

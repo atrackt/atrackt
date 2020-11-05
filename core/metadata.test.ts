@@ -1,6 +1,6 @@
 import Metadata from '@atrackt/core/metadata'
 
-describe(Metadata, () => {
+describe.skip(Metadata, () => {
   let metadata
 
   describe('constructor', () => {

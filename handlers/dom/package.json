@@ -1,4 +1,5 @@
 {
+  "browser": "dom",
   "description": "Atrackt event handler using vanilla javascript",
   "homepage": "https://github.com/atrackt/atrackt/tree/master/handlers/dom#readme",
   "name": "@atrackt/handler-dom",

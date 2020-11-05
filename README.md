@@ -7,8 +7,8 @@ A library for making complex tracking & analytics easier
 #### via App
 ###### Use in Node/JS w/out DOM element support
 ```js
-// import the core
-import Core from '@atrackt/core'
+// import atrackt
+import Atrackt from '@atrackt/core'
 
 // initialize & configure (see below)
 // set services (see below)
@@ -56,7 +56,7 @@ new Handler({
 ###### Initialize & Configure
 ```js
 // import core or handler
-import Core from '@atrackt/core'
+import Atrackt from '@atrackt/core'
 
 // initialize atrackt with optional configuration (see below)
 const Atrackt = new Core({ config: {...} })

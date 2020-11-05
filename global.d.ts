@@ -1,11 +1,12 @@
 // jest
 declare var context: jest.Describe
 
+// global
 interface Window {
   Atrackt: any
 }
 
-// atrackt
+// constructors
 interface CoreConstructor {
   config?: object
 }
@@ -20,4 +21,9 @@ interface ServiceConstructor {
   [key: string]: any
   name: string
   submit: (payload: object, options?: object) => object
+}
+
+// api
+interface EventCriteria {
+  eventCriteria: object
 }

@@ -1,6 +1,6 @@
 import Failure from '@atrackt/core/failure'
 
-describe(Failure, () => {
+describe.skip(Failure, () => {
   let failure
 
   beforeAll(() => {

@@ -1,4 +1,5 @@
 {
+  "browser": "jquery",
   "description": "Atrackt event handler using jQuery",
   "homepage": "https://github.com/atrackt/atrackt/tree/master/handlers/jquery#readme",
   "name": "@atrackt/handler-jquery",

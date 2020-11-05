@@ -4,23 +4,26 @@ const merge = require('deepmerge')
 
 // common config
 const commonConfig = {
+  // All imported modules in your tests should be mocked automatically
+  automock: true,
+
   // Automatically clear mock calls and instances between every test
   clearMocks: true,
 
   // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
   moduleNameMapper: {
-    '@atrackt/core$': '<rootDir>/core/core.ts',
+    '@atrackt/core$': '<rootDir>/core/atrackt.ts',
     '@atrackt/core/(.+)$': '<rootDir>/core/$1.ts',
     '@atrackt/handler-(.+)$': '<rootDir>/handlers/$1/$1.ts',
     '@atrackt/service-(.+)$': '<rootDir>/services/$1/$1.ts',
     '\\.(sass)$': 'identity-obj-proxy',
   },
+
+  // Automatically restore mock state between every test
+  restoreMocks: true,
 }
 
 module.exports = {
-  // All imported modules in your tests should be mocked automatically
-  // automock: false,
-
   // Stop running tests after `n` failures
   // bail: 0,
 
@@ -148,9 +151,6 @@ module.exports = {
 
   // A path to a custom resolver
   // resolver: undefined,
-
-  // Automatically restore mock state between every test
-  // restoreMocks: false,
 
   // The root directory that Jest should scan for tests and modules within
   // rootDir: undefined,

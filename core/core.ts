@@ -2,27 +2,7 @@ import Failure from '@atrackt/core/failure'
 import Metadata from '@atrackt/core/metadata'
 import Service from '@atrackt/core/service'
 
-export default class Atrackt {
-  [api: string]: Function
-
-  constructor(coreHandler: CoreConstructor = {}) {
-    const core = new exports.Core(coreHandler.config)
-
-    // define core api...
-    this.setService = core.setService.bind(core)
-    this.track = core.track.bind(core)
-
-    // define handler api
-    if (this.constructor.name === 'Handler') {
-      this.enableConsole = core.enableConsole.bind(core)
-    }
-
-    // expose api globally
-    globalThis.Atrackt = this
-  }
-}
-
-export class Core extends Metadata {
+export default class Core extends Metadata {
   config: object // config for atrackt functionality
   console: boolean // flag for when console is visible
   services: object // stores all registered services
@@ -34,11 +14,11 @@ export class Core extends Metadata {
     this.services = {}
   }
 
-  private enableConsole() {
+  enableConsole() {
     this.console = true
   }
 
-  private setService(serviceObject: ServiceConstructor) {
+  setService(serviceObject: ServiceConstructor) {
     const serviceName = serviceObject.name
 
     if (this.services[serviceName]) {
@@ -51,7 +31,7 @@ export class Core extends Metadata {
     return serviceInstance
   }
 
-  private track(payload: object, options: object = {}) {
+  track(payload: object, options: object = {}) {
     return { payload, options }
   }
 

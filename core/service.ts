@@ -1,4 +1,4 @@
-import { Core } from '@atrackt/core'
+import Core from '@atrackt/core/core'
 import Metadata from '@atrackt/core/metadata'
 import Failure from '@atrackt/core/failure'
 

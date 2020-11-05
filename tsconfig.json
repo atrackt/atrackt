@@ -44,10 +44,12 @@
     // "moduleResolution": "node" /* Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6). */,
     "baseUrl": "./" /* Base directory to resolve non-absolute module names. */,
     "paths": {
-      "@atrackt/core": ["core/core.ts"],
+      "@atrackt/core": ["core/atrackt.ts"],
       "@atrackt/core/*": ["core/*.ts"],
       "@atrackt/handler-dom": ["handlers/dom/dom.ts"],
-      "@atrackt/handler-jquery": ["handlers/jquery/jquery.ts"]
+      "@atrackt/handler-jquery": ["handlers/jquery/jquery.ts"],
+      "@atrackt/service-adobe-analytics": ["services/adobe-analytics/adobe-analytics.ts"],
+      "@atrackt/service-sumo-logic": ["services/sumo-logic/sumo-logic.ts"],
     } /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */
     // "rootDirs": [],                        /* List of root folders whose combined content represents the structure of the project at runtime. */
     // "typeRoots": [],                       /* List of folders to include type definitions from. */
