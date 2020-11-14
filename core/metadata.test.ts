@@ -1,6 +1,6 @@
-import Metadata from '@atrackt/core/metadata'
+const Metadata = jest.requireActual('@atrackt/core/metadata').default
 
-describe.skip(Metadata, () => {
+describe('Metadata', () => {
   let metadata
 
   describe('constructor', () => {
@@ -8,7 +8,7 @@ describe.skip(Metadata, () => {
       metadata = new Metadata()
     })
 
-    it('should create all defaults', () => {
+    it('should set defaults', () => {
       expect(metadata.callbacks).toEqual({
         before: [],
         after: [],

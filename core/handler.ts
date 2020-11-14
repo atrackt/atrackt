@@ -9,8 +9,12 @@ export default class Handler extends Atrackt {
   }
 
   private validate(handler) {
-    if (typeof window === 'undefined') {
+    if (!window) {
       throw new Failure('Handlers can only be used in a browser')
+    }
+
+    if (typeof handler !== 'object') {
+      throw new Failure('A handler must be defined')
     }
 
     if (typeof handler.setEvents !== 'function') {

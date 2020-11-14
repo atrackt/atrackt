@@ -1,7 +1,7 @@
 import Core from '@atrackt/core/core'
 const Atrackt = jest.requireActual('@atrackt/core').default
 
-describe(Atrackt, () => {
+describe('Atrackt', () => {
   let atrackt
 
   describe('constructor', () => {
@@ -12,6 +12,10 @@ describe(Atrackt, () => {
     context('when initialized', () => {
       beforeEach(() => {
         atrackt = new Atrackt()
+      })
+
+      it('should create a core instance', () => {
+        expect(Core).toBeCalledTimes(1)
       })
 
       it('should expose the api', () => {
@@ -26,10 +30,6 @@ describe(Atrackt, () => {
       it('should expose atrackt global', () => {
         expect(globalThis.Atrackt).toBe(atrackt)
       })
-
-      it('should create a core instance', () => {
-        expect(Core).toBeCalledTimes(1)
-      })
     })
 
     context('without passing a config', () => {
@@ -41,15 +41,13 @@ describe(Atrackt, () => {
     })
 
     context('when passing a config', () => {
-      beforeEach(() => {
+      it('should pass it to Core', () => {
         new Atrackt({
           config: {
             custom: 'config',
           },
         })
-      })
 
-      it('should pass it to Core', () => {
         expect(Core).toBeCalledWith({ custom: 'config' })
       })
     })

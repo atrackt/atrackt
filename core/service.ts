@@ -18,6 +18,10 @@ export default class Service extends Metadata {
       }
     }
 
+    if (typeof service !== 'object') {
+      throw new Failure('A service must be defined')
+    }
+
     if (typeof service.name !== 'string') {
       throw new Failure('Services require a name')
     }

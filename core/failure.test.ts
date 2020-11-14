@@ -1,18 +1,20 @@
-import Failure from '@atrackt/core/failure'
+const Failure = jest.requireActual('@atrackt/core/failure').default
 
-describe.skip(Failure, () => {
+describe('Failure', () => {
   let failure
 
-  beforeAll(() => {
-    failure = new Failure('test error')
+  it('should extend Atrackt', () => {
+    expect(Failure.prototype).toBeInstanceOf(Error)
   })
 
-  it('should namespace the error', () => {
-    expect(failure.name).toBe('Atrackt Error')
-  })
+  describe('constructor', () => {
+    beforeEach(() => {
+      failure = new Failure('test error')
+    })
 
-  it('should extend Error', () => {
-    expect(failure.message).toBe('test error')
-    expect(failure).toBeInstanceOf(Error)
+    it('should initialize the failure', () => {
+      expect(failure.message).toBe('test error')
+      expect(failure.name).toBe('Atrackt Error')
+    })
   })
 })

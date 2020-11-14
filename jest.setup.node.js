@@ -1,8 +1,8 @@
 // add support for the context alias
 global.context = global.describe
 
-// services
-globalThis.Atrackt = {
-  services: {},
-  setService: () => {},
-}
+// mock Failure with vanilla JS Error
+jest.mock('@atrackt/core/failure', () => Error)
+
+// set window to be undefined to prevent jest environment warnings
+global.window = undefined
