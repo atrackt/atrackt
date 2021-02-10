@@ -1,15 +1,30 @@
-import Core from '@atrackt/core/core'
 import Metadata from '@atrackt/core/metadata'
 import Failure from '@atrackt/core/failure'
+import Utils from '@atrackt/core/utils'
 
 export default class Service extends Metadata {
-  constructor(service: ServiceConstructor) {
+  // name: string
+
+  constructor(service: ServiceObject) {
     super()
     this.validate(service)
     Object.assign(this, service)
   }
 
+  // @throws {Failure} if service is invalid
+  // @returns {undefined}
   private validate(service) {
+    // const serviceName = service.name
+
+    // if (this.services[serviceName]) {
+    //   throw new Failure(`${serviceName} service was already set`)
+    // }
+
+    // const serviceInstance = new Service(service)
+    // this.services[serviceName] = serviceInstance
+
+    // return serviceInstance
+
     if (!globalThis.Atrackt) {
       if (!window) {
         throw new Failure('Core or a handler must be initialized')
@@ -31,7 +46,7 @@ export default class Service extends Metadata {
       throw new Failure('Services require a submit function')
     }
 
-    let submitArgs = Core.getFunctionArguments(service.submit)
+    let submitArgs = Utils.getFunctionArguments(service.submit)
 
     if (submitArgs[0] !== 'payload') {
       throw new Failure(
@@ -49,7 +64,7 @@ export default class Service extends Metadata {
       throw new Failure('The submit function only accepts payload & options')
     }
 
-    let submitReturn = Core.getFunctionReturn(service.submit)
+    let submitReturn = Utils.getFunctionReturn(service.submit)
 
     if (submitReturn !== 'payload') {
       throw new Failure(

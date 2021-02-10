@@ -1,8 +1,10 @@
-import Service from '@atrackt/core/service'
+import Atrackt from '@atrackt/core'
 
-new Service({
+Atrackt.setService({
   name: 'Adobe Analytics',
   submit: (payload, options) => {
     return payload
   },
 })
+
+export default Atrackt

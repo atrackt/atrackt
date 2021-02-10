@@ -18,9 +18,6 @@ const commonConfig = {
     '@atrackt/service-(.+)$': '<rootDir>/services/$1/$1.ts',
     '\\.(sass)$': 'identity-obj-proxy',
   },
-
-  // Automatically restore mock state between every test
-  restoreMocks: true,
 }
 
 module.exports = {
@@ -113,25 +110,29 @@ module.exports = {
       testEnvironment: 'jsdom',
       testMatch: ['<rootDir>/core/*.test.ts'],
     }),
+
     merge(commonConfig, {
       displayName: 'CORE:node',
       setupFilesAfterEnv: ['./jest.setup.node.js'],
       testEnvironment: 'node',
       testMatch: ['<rootDir>/core/*.test.ts'],
-      testPathIgnorePatterns: ['console.test.ts'],
+      // testPathIgnorePatterns: ['console.test.ts'],
     }),
+
     // merge(commonConfig, {
-    //   displayName: 'HANDLERS',
+    //   displayName: 'HANDLERS:javascript',
     //   setupFilesAfterEnv: ['./jest.setup.jsdom.js'],
     //   testEnvironment: 'jsdom',
     //   testMatch: ['<rootDir>/handlers/**/*.test.ts'],
     // }),
+
     // merge(commonConfig, {
     //   displayName: 'SERVICES:javascript',
     //   setupFilesAfterEnv: ['./jest.setup.jsdom.js'],
     //   testEnvironment: 'jsdom',
     //   testMatch: ['<rootDir>/services/**/*.test.ts'],
     // }),
+
     // merge(commonConfig, {
     //   displayName: 'SERVICES:node',
     //   setupFilesAfterEnv: ['./jest.setup.node.js'],

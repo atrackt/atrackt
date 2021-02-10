@@ -4,9 +4,12 @@
 
     /* Basic Options */
     // "incremental": true,                   /* Enable incremental compilation */
-    // "target": "es3" /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', 'ES2018', 'ES2019', 'ES2020', or 'ESNEXT'. */,
+    "target": "es5" /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', 'ES2018', 'ES2019', 'ES2020', or 'ESNEXT'. */,
     // "module": "umd" /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', 'es2020', or 'ESNext'. */,
-    // "lib": ["es2016", "dom", "es5"] /* Specify library files to be included in the compilation. */,
+    "lib": [
+      "dom",
+      "es2019"
+    ] /* Specify library files to be included in the compilation. */,
     // "allowJs": true,                       /* Allow javascript files to be compiled. */
     // "checkJs": true,                       /* Report errors in .js files. */
     // "jsx": "preserve",                     /* Specify JSX code generation: 'preserve', 'react-native', or 'react'. */
@@ -48,8 +51,10 @@
       "@atrackt/core/*": ["core/*.ts"],
       "@atrackt/handler-dom": ["handlers/dom/dom.ts"],
       "@atrackt/handler-jquery": ["handlers/jquery/jquery.ts"],
-      "@atrackt/service-adobe-analytics": ["services/adobe-analytics/adobe-analytics.ts"],
-      "@atrackt/service-sumo-logic": ["services/sumo-logic/sumo-logic.ts"],
+      "@atrackt/service-adobe-analytics": [
+        "services/adobe-analytics/adobe-analytics.ts"
+      ],
+      "@atrackt/service-sumo-logic": ["services/sumo-logic/sumo-logic.ts"]
     } /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */
     // "rootDirs": [],                        /* List of root folders whose combined content represents the structure of the project at runtime. */
     // "typeRoots": [],                       /* List of folders to include type definitions from. */

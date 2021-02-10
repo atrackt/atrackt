@@ -20,17 +20,17 @@
     "deepmerge": "^4",
     "eslint": "^7",
     "http-server": "^0",
-    "husky": "^4",
+    "husky": "^5",
     "identity-obj-proxy": "^3",
     "jest": "^26",
     "lerna": "^3",
     "reload": "^3",
     "sass": "^1",
-    "sass-loader": "^10",
+    "sass-loader": "^11",
     "style-loader": "^2",
     "systematize": "^3",
     "ts-loader": "^8",
-    "typescript": "^4",
+    "typescript": "^4.1.4",
     "webpack": "^5",
     "webpack-cli": "^4"
   },
@@ -44,7 +44,7 @@
   },
   "keywords": [
     "adobe",
-    "omniture",
+    "multiture",
     "sitecatalyst",
     "analytics",
     "jquery",
@@ -60,7 +60,7 @@
     "tracking"
   ],
   "publishConfig": {
-    "access": "public",
+    "access": "private",
     "directory": ".dist",
     "registry": "https://registry.npmjs.org",
     "scope": "@atrackt"
@@ -75,6 +75,7 @@
     "demo-server": "http-server .",
     "demo-ts": "webpack --watch --config webpack.demo.js",
     "demo": "concurrently --kill-others \"yarn:demo-*\"",
+    "postinstall": "husky install",
     "postpublish": "yarn reset",
     "prepublish": "",
     "release": "lerna publish --create-release github",

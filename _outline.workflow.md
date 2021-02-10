@@ -1,15 +1,41 @@
 #### Workflow Outline
 
 ```js
+Atrackt // api methods
+  ::setConsole
+  ::setHandler
+    handler = new Handler
+  ::setService
+    new Service
+  start
+    console = new Console if enabled
+    core = handler || new Core
+    global = new Global
+Console // console methods
+Core // non-api methods
+Global extends Metadata // global metadata getters/setters
+Handler extends Core // handler methods
+Metadata // stores user data
+Service extends Metadata // service metadata getters/setters
+
+import Atrackt
+import Console (Atrackt.setConsole)
+import Dom (Atrackt.setHandler)
+import Adobe (Atrackt.setService)
+
+Atrackt.start()
+```
+
+```js
 // PUBLIC FUNCTIONS
 //
-CORE.setService('Service Name', {service})
-  service = CORE.validateService(service)
-  return CORE.mergeObjectsShallow(CORE.services, service)
+// CORE.setService('Service Name', {service})
+//   service = CORE.validateService(service)
+//   return CORE.mergeObjectsShallow(CORE.services, service)
 
 CORE.track({
   payload: [Object|HtmlNode]
-  data: [Array<'criteria'>|[criteria]|HtmlNode|Object]},
+  data: [ selectors | selectors[] ],
   options?: {options},
   event?: [Event|'eventType'],
   service?: ['service'])
@@ -35,17 +61,17 @@ CORE.track({
 
 
 // GLOBAL
-CORE.setEvents({eventCriteria})
+CORE.setEvents({eventSelectors})
   // for dom mutations
-  if criteria passed...
-    criteria = CORE.eventCriteria
+  if selectors passed...
+    selectors = CORE.eventSelectors
   else
-    criteria = CORE.mergeObjects(CORE.eventCriteria, {eventCriteria})
+    selectors = CORE.mergeObjects(CORE.eventSelectors, {eventSelectors})
   for (each) 'element' in HANDLER.getElements()...
     for (each) 'service' in CORE.services...
       if 'data-atrackt-services' does not contain 'service.name'
         CORE.setElementData('element', 'service.name')
-        for (each) 'event' in Object.keys({eventCriteria})...
+        for (each) 'event' in Object.keys({eventSelectors})...
           CORE.setElementEvent('element', 'event')
 
 CORE.set[Data|Options](Object)
@@ -56,13 +82,13 @@ CORE.setCallback('callback fn', ORDER: ['before'|'after'])
 
 
 // SERVICE
-CORE.setEvents({eventCriteria}, service: 'Service Name')
+CORE.setEvents({eventSelectors}, service: 'Service Name')
   CORE.getService('Service Name')
-  CORE.mergeObjects(SERVICE.eventCriteria, {eventCriteria})
+  CORE.mergeObjects(SERVICE.eventSelectors, {eventSelectors})
   for (each) 'element' in HANDLER.getElements('service-name')...
     if 'data-atrackt-services' does not contain 'service.name'
       CORE.setElementData('element', 'service.name')
-      for (each) 'event' in Object.keys({eventCriteria})...
+      for (each) 'event' in Object.keys({eventSelectors})...
         CORE.setElementEvent('element', 'event')
 
 CORE.set[Data|Options](Object, service: 'Service Name')
@@ -165,10 +191,10 @@ HANDLER.bindEvent('element', 'options', 'event', 'service')
   // if not, bind event to call CORE.track(payload: 'element', options: 'options', event: 'event', service: 'service')
 
 HANDLER.getElements(Object)
-  * // loop through Object.eventCriteria and add to array
+  * // loop through Object.eventSelectors and add to array
   return array
 
-HANDLER.isElement('criteria')
+HANDLER.isElement('selectors')
   // use handler to test if arg can be matched to an element(s)
 ```
 
@@ -188,5 +214,5 @@ CORE.setCallback('order', data, options, 'Service Name') ->
 ```js
 CORE.setEvents()
   * for each 'service' in CORE.services...
-    * for each 'event' in SERVICE.eventCriteria...
+    * for each 'event' in SERVICE.eventSelectors...
 ```

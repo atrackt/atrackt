@@ -1,8 +1,13 @@
-import Handler from '@atrackt/core/handler'
+import Atrackt from '@atrackt/core'
 
-const dom = new Handler({
+Atrackt.setHandler({
   name: 'Dom',
-  setEvents: (eventCriteria) => {},
+  getElements: (selector) => {
+    // TODO: query for elements logic
+    return []
+  },
+  bindEvent: (element, eventName) => {
+    // TODO: bind event logic
+    return element
+  },
 })
-
-export default dom

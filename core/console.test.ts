@@ -1,139 +1,144 @@
-const Console = jest.requireActual('@atrackt/core/console').default
+// import Atrackt from '@atrackt/core'
+// const Console = jest.requireActual('@atrackt/core/console').default
 
-describe('Console', () => {
-  let consoleInstance
+// describe('Console', () => {
+//   let consoleInstance
 
-  describe('constructor', () => {
-    let enableConsoleSpy
-    let setupConsoleSpy
-    let validateSpy
+//   // it('should extend Atrackt', () => {
+//   //   expect(Console.prototype).toBeInstanceOf(Atrackt)
+//   // })
 
-    beforeEach(() => {
-      window.Atrackt = {
-        enableConsole: () => {},
-      }
-      enableConsoleSpy = jest
-        .spyOn(window.Atrackt, 'enableConsole')
-        .mockImplementation()
-      setupConsoleSpy = jest
-        .spyOn(Console.prototype, 'setupConsole')
-        .mockImplementation()
-      validateSpy = jest.spyOn(Console.prototype, 'validate')
-    })
+//   describe('constructor', () => {
+//     let enableConsoleSpy
+//     let setupConsoleSpy
+//     let validateSpy
 
-    context('when conditions are valid', () => {
-      it('should initialize the console', () => {
-        validateSpy.mockImplementation(() => true)
-        new Console()
+//     beforeEach(() => {
+//       window.Atrackt = {
+//         enableConsole: () => {},
+//       }
+//       enableConsoleSpy = jest
+//         .spyOn(window.Atrackt, 'enableConsole')
+//         .mockImplementation()
+//       setupConsoleSpy = jest
+//         .spyOn(Console.prototype, 'setupConsole')
+//         .mockImplementation()
+//       validateSpy = jest.spyOn(Console.prototype, 'validate')
+//     })
 
-        expect(validateSpy).toBeCalledTimes(1)
-        expect(enableConsoleSpy).toBeCalledTimes(1)
-        expect(setupConsoleSpy).toBeCalledTimes(1)
-      })
-    })
+//     context('when conditions are valid', () => {
+//       it('should initialize the console', () => {
+//         validateSpy.mockImplementation(() => true)
+//         new Console()
 
-    context('when conditions are invalid', () => {
-      it('should not initialize the console', () => {
-        validateSpy.mockImplementation(() => false)
-        new Console()
+//         expect(validateSpy).toBeCalledTimes(1)
+//         expect(enableConsoleSpy).toBeCalledTimes(1)
+//         expect(setupConsoleSpy).toBeCalledTimes(1)
+//       })
+//     })
 
-        expect(validateSpy).toBeCalledTimes(1)
-        expect(enableConsoleSpy).not.toBeCalled()
-        expect(setupConsoleSpy).not.toBeCalled()
-      })
-    })
-  })
+//     context('when conditions are invalid', () => {
+//       it('should not initialize the console', () => {
+//         validateSpy.mockImplementation(() => false)
+//         new Console()
 
-  describe('.validate', () => {
-    let getItemSpy
-    let searchIncludesSpy
-    let validateError
-    let validateReturn
-    let windowSpy
+//         expect(validateSpy).toBeCalledTimes(1)
+//         expect(enableConsoleSpy).not.toBeCalled()
+//         expect(setupConsoleSpy).not.toBeCalled()
+//       })
+//     })
+//   })
 
-    beforeEach(() => {
-      consoleInstance = Object.create(Console.prototype)
-      getItemSpy = jest.fn()
-      searchIncludesSpy = jest.fn()
-      validateError = consoleInstance.validate
-      windowSpy = jest.spyOn(global, 'window', 'get')
-    })
+//   describe('.validate', () => {
+//     let getItemSpy
+//     let searchIncludesSpy
+//     let validateError
+//     let validateReturn
+//     let windowSpy
 
-    afterEach(() => {
-      getItemSpy.mockRestore()
-      searchIncludesSpy.mockRestore()
-    })
+//     beforeEach(() => {
+//       consoleInstance = Object.create(Console.prototype)
+//       getItemSpy = jest.fn()
+//       searchIncludesSpy = jest.fn()
+//       validateError = consoleInstance.validate
+//       windowSpy = jest.spyOn(global, 'window', 'get')
+//     })
 
-    context('when in a browser', () => {
-      context('when a handler is loaded', () => {
-        beforeEach(() => {
-          windowSpy.mockImplementation(() => ({
-            Atrackt: {},
-            location: {
-              search: {
-                includes: searchIncludesSpy,
-              },
-            },
-            localStorage: {
-              getItem: getItemSpy,
-            },
-          }))
-        })
+//     afterEach(() => {
+//       getItemSpy.mockRestore()
+//       searchIncludesSpy.mockRestore()
+//     })
 
-        context('when console is disabled', () => {
-          it('should return false', () => {
-            validateReturn = consoleInstance.validate()
+//     context('when in a browser', () => {
+//       context('when a handler is loaded', () => {
+//         beforeEach(() => {
+//           windowSpy.mockImplementation(() => ({
+//             Atrackt: {},
+//             location: {
+//               search: {
+//                 includes: searchIncludesSpy,
+//               },
+//             },
+//             localStorage: {
+//               getItem: getItemSpy,
+//             },
+//           }))
+//         })
 
-            expect(getItemSpy).toBeCalledTimes(1)
-            expect(searchIncludesSpy).toBeCalledTimes(1)
-            expect(validateReturn).toEqual(false)
-          })
-        })
+//         context('when console is disabled', () => {
+//           it('should return false', () => {
+//             validateReturn = consoleInstance.validate()
 
-        context('when console is enabled in the url', () => {
-          it('should return true', () => {
-            searchIncludesSpy.mockImplementation(() => true)
-            validateReturn = consoleInstance.validate()
+//             expect(getItemSpy).toBeCalledTimes(1)
+//             expect(searchIncludesSpy).toBeCalledTimes(1)
+//             expect(validateReturn).toEqual(false)
+//           })
+//         })
 
-            expect(searchIncludesSpy).toBeCalledTimes(1)
-            expect(getItemSpy).not.toBeCalled()
-            expect(validateReturn).toEqual(true)
-          })
-        })
+//         context('when console is enabled in the url', () => {
+//           it('should return true', () => {
+//             searchIncludesSpy.mockImplementation(() => true)
+//             validateReturn = consoleInstance.validate()
 
-        context('when console is enabled in local storage', () => {
-          it('should return true', () => {
-            getItemSpy.mockImplementation(() => 'true')
-            validateReturn = consoleInstance.validate()
+//             expect(searchIncludesSpy).toBeCalledTimes(1)
+//             expect(getItemSpy).not.toBeCalled()
+//             expect(validateReturn).toEqual(true)
+//           })
+//         })
 
-            expect(searchIncludesSpy).toBeCalledTimes(1)
-            expect(getItemSpy).toBeCalledTimes(1)
-            expect(validateReturn).toEqual(true)
-          })
-        })
-      })
+//         context('when console is enabled in local storage', () => {
+//           it('should return true', () => {
+//             getItemSpy.mockImplementation(() => 'true')
+//             validateReturn = consoleInstance.validate()
 
-      context('when a handler is not loaded', () => {
-        it('should throw an error', () => {
-          windowSpy.mockImplementation(() => true)
+//             expect(searchIncludesSpy).toBeCalledTimes(1)
+//             expect(getItemSpy).toBeCalledTimes(1)
+//             expect(validateReturn).toEqual(true)
+//           })
+//         })
+//       })
 
-          expect(searchIncludesSpy).not.toBeCalled()
-          expect(getItemSpy).not.toBeCalled()
-          expect(validateError).toThrow('handler')
-        })
-      })
-    })
+//       context('when a handler is not loaded', () => {
+//         it('should throw an error', () => {
+//           windowSpy.mockImplementation(() => true)
 
-    context('when not in a browser', () => {
-      it('should throw an error', () => {
-        windowSpy.mockImplementation(() => undefined)
+//           expect(searchIncludesSpy).not.toBeCalled()
+//           expect(getItemSpy).not.toBeCalled()
+//           expect(validateError).toThrow('handler')
+//         })
+//       })
+//     })
 
-        expect(searchIncludesSpy).not.toBeCalled()
-        expect(getItemSpy).not.toBeCalled()
-        expect(validateError).toThrow('browser')
-      })
-    })
-  })
+//     context('when not in a browser', () => {
+//       it('should throw an error', () => {
+//         windowSpy.mockImplementation(() => undefined)
 
-  describe('.setupConsole', () => {})
-})
+//         expect(searchIncludesSpy).not.toBeCalled()
+//         expect(getItemSpy).not.toBeCalled()
+//         expect(validateError).toThrow('browser')
+//       })
+//     })
+//   })
+
+//   describe('.setupConsole', () => {})
+// })

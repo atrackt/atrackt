@@ -1,63 +1,99 @@
 import Core from '@atrackt/core/core'
 const Atrackt = jest.requireActual('@atrackt/core').default
 
-describe('Atrackt', () => {
-  let atrackt
+const CORE_METHODS = ['setConsole', 'setHandler', 'setService']
+const METADATA_METHODS = ['setCallbacks', 'setData', 'setEvents', 'setOptions']
 
-  describe('constructor', () => {
-    beforeEach(() => {
-      delete globalThis.Atrackt
+describe(Atrackt, () => {
+  describe('before script is started', () => {
+    it('should add to the global object', () => {
+      expect(globalThis.Atrackt).toEqual(Atrackt)
+      expect(globalThis.Atrackt._core).toBeUndefined()
+    })
+  })
+
+  describe('after script is started', () => {
+    beforeAll(() => {
+      Atrackt._core = new Core()
     })
 
-    context('when initialized', () => {
-      beforeEach(() => {
-        atrackt = new Atrackt()
-      })
-
-      it('should create a core instance', () => {
-        expect(Core).toBeCalledTimes(1)
-      })
-
-      it('should expose the api', () => {
-        // core methods should all be bound
-        expect(atrackt.setService.name).toEqual('bound setService')
-        expect(atrackt.track.name).toEqual('bound track')
-
-        // handler api methods should be undefined
-        expect(atrackt.enableConsole).toBeUndefined()
-      })
-
-      it('should expose atrackt global', () => {
-        expect(globalThis.Atrackt).toBe(atrackt)
-      })
+    it('should initialize Core', () => {
+      expect(Atrackt._core).toBeInstanceOf(Core)
     })
 
-    context('without passing a config', () => {
-      it('should pass nothing to Core', () => {
-        new Atrackt()
+    describe('core methods', () => {
+      for (const method of CORE_METHODS) {
+        describe(`#${method}`, () => {
+          it('should call setGlobal on Core', () => {
+            const methodArg = `${method}Arg`
+            const setGlobalReturn = 'setGlobalReturn'
 
-        expect(Core).toBeCalledWith(undefined)
-      })
-    })
+            const methodSpy = jest.spyOn(Atrackt, method)
+            const setGlobalSpy = jest.spyOn(Atrackt._core, 'setGlobal')
+            setGlobalSpy.mockImplementation(() => setGlobalReturn)
 
-    context('when passing a config', () => {
-      it('should pass it to Core', () => {
-        new Atrackt({
-          config: {
-            custom: 'config',
-          },
+            Atrackt[method](methodArg)
+
+            expect(methodSpy).toBeCalledWith(methodArg)
+            expect(methodSpy).toReturnWith(setGlobalReturn)
+            expect(setGlobalSpy).toBeCalledWith(method, methodArg)
+          })
         })
+      }
+    })
 
-        expect(Core).toBeCalledWith({ custom: 'config' })
+    describe('metadata methods', () => {
+      for (const method of METADATA_METHODS) {
+        describe(`#${method}`, () => {
+          it('should call setMetadata on Core', () => {
+            const methodArg = `${method}Arg`
+            const setMetadataReturn = 'setMetadataReturn'
+
+            const methodSpy = jest.spyOn(Atrackt, method)
+            const setMetadataSpy = jest.spyOn(Atrackt._core, 'setMetadata')
+            setMetadataSpy.mockImplementation(() => setMetadataReturn)
+
+            Atrackt[method](methodArg)
+
+            expect(methodSpy).toBeCalledWith(methodArg)
+            expect(methodSpy).toReturnWith(setMetadataReturn)
+            expect(setMetadataSpy).toBeCalledWith(method, methodArg, [])
+          })
+        })
+      }
+    })
+
+    describe('#start', () => {
+      it('should initialize Core', () => {
+        delete Atrackt._core
+        const startArg = 'startArg'
+        const startReturn = 'startReturn'
+
+        const startSpy = jest.spyOn(Atrackt, 'start')
+
+        Atrackt.start(startArg)
+
+        expect(startSpy).toBeCalledWith(startArg)
+        expect(startSpy).toReturnWith(Atrackt._core)
+        expect(Atrackt._core).toBeInstanceOf(Core)
+        expect(Core).toBeCalledWith(startArg)
       })
     })
 
-    context('when initialized from a handler', () => {
-      it('should expose the handler api', () => {
-        const HandlerClass = class Handler extends Atrackt {}
-        atrackt = new HandlerClass()
+    describe('#track', () => {
+      it('should call track on Core', () => {
+        const trackArg = 'trackPayloadArg'
+        const trackReturn = 'trackReturn'
 
-        expect(atrackt.enableConsole.name).toEqual('bound enableConsole')
+        const trackSpy = jest.spyOn(Atrackt, 'track')
+        const coreTrackSpy = jest.spyOn(Atrackt._core, 'track')
+        coreTrackSpy.mockImplementation(() => trackReturn)
+
+        Atrackt.track(trackArg)
+
+        expect(trackSpy).toBeCalledWith(trackArg)
+        expect(trackSpy).toReturnWith(trackReturn)
+        expect(coreTrackSpy).toBeCalledWith(trackArg, {}, [])
       })
     })
   })

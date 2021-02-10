@@ -1,21 +1,52 @@
 import Core from '@atrackt/core/core'
 
-export default class Atrackt {
-  [api: string]: Function
+// Provides the private API
+// * should contain no business logic
+//
+class Atrackt {
+  private static _core: Core
 
-  constructor(coreHandler: CoreConstructor = {}) {
-    const core = new Core(coreHandler.config)
+  // CORE METHODS
+  //
+  public static setConsole(console) {
+    return Atrackt._core.setGlobal('setConsole', console)
+  }
 
-    // define core api...
-    this.setService = core.setService.bind(core)
-    this.track = core.track.bind(core)
+  public static setHandler(handler) {
+    return Atrackt._core.setGlobal('setHandler', handler)
+  }
 
-    // define handler api
-    if (this.constructor.name === 'Handler') {
-      this.enableConsole = core.enableConsole.bind(core)
-    }
+  public static setService(service) {
+    return Atrackt._core.setGlobal('setService', service)
+  }
 
-    // expose api globally
-    globalThis.Atrackt = this
+  // METADATA METHODS
+  //
+  public static setCallbacks(callbacks, serviceNames = []) {
+    return Atrackt._core.setMetadata('setCallbacks', callbacks, serviceNames)
+  }
+
+  public static setData(data, serviceNames = []) {
+    return Atrackt._core.setMetadata('setData', data, serviceNames)
+  }
+
+  public static setEvents(eventSelectors, serviceNames = []) {
+    return Atrackt._core.setMetadata('setEvents', eventSelectors, serviceNames)
+  }
+
+  public static setOptions(options, serviceNames = []) {
+    return Atrackt._core.setMetadata('setOptions', options, serviceNames)
+  }
+
+  // API METHODS
+  //
+  public static start(config = {}) {
+    return (Atrackt._core = new Core(config))
+  }
+
+  public static track(payload, options = {}, serviceNames = []) {
+    return Atrackt._core.track(payload, options, serviceNames)
   }
 }
+
+export default globalThis.Atrackt = Atrackt

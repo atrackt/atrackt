@@ -1,17 +1,24 @@
 import './demo.sass'
-import Atrackt from '@atrackt/handler-dom'
-import '@atrackt/core/console'
+import Atrackt from '@atrackt/core'
+import '@atrackt/handler-dom'
+// import Atrackt from '@atrackt/handler-dom'
+import '@atrackt/service-adobe-analytics'
 
-Atrackt.setService({
-  name: 'Demo Service',
-  submit: (payload, options) => {
-    console.log('DEMO SERVICE')
-    console.log(' => Payload', payload)
-    console.log(' => Options', options)
-    return payload
-  },
-})
+// import '@atrackt/core/console'
+// console.log(Atrackt)
 
-Atrackt.setEvents({
-  click: 'a',
-})
+Atrackt.start()
+
+// Atrackt.setService({
+//   name: 'Demo Service',
+//   submit: (payload, options) => {
+//     console.log('DEMO SERVICE')
+//     console.log(' => Payload', payload)
+//     console.log(' => Options', options)
+//     return payload
+//   },
+// })
+
+// Atrackt.setEvents({
+//   click: 'a',
+// })

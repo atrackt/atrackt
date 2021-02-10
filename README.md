@@ -1,27 +1,138 @@
 # Atrackt
 
-A library for making complex tracking & analytics easier
-A library for making complex tracking & analytics easier
+#### A library for making complex tracking & analytics easier
 
-## API
-#### via App
-###### Use in Node/JS w/out DOM element support
+---
+
+### Basic Usage
+
+> _...more info on each step after the example_
+
 ```js
-// import atrackt
+// SCRIPTS
+// ...import core - always required
 import Atrackt from '@atrackt/core'
 
-// initialize & configure (see below)
-// set services (see below)
+// ...import handler - required for browser
+import '@atrackt/handler-dom'
 
-// track data objects only
-Atrackt.track({
-  data: 'object'
-}, {
-  options: 'object'
+// ...import service(s) - requires 1 or more
+import '@atrackt/service-adobe-analytics'
+
+// ...import console - not for production
+import '@atrackt/core/console'
+
+// BIND
+// ...bind events to dom elements - requires a loaded handler
+Atrackt.setEvents({
+  click: '.click',
+})
+
+// INITIALIZE
+// ...sets up your environment
+Atrackt.start()
+
+// IMPLEMENT
+// ...track data manually when a dom event isn't triggered - good for SPA
+Atrackt.track(
+  {
+    data: {
+      key: 'value',
+    },
+  },
+  {
+    options: {
+      key: 'value',
+    },
+  }
+)
+```
+
+---
+
+### IMPORT/REQUIRE/SCRIPT
+
+```js
+// IMPORT
+import Atrackt from '@atrackt/core'
+import '@atrackt/handler-dom'
+import '@atrackt/service-adobe-analytics'
+import '@atrackt/core/console'
+
+// REQUIRE
+const Atrackt = require '@atrackt/core'
+require '@atrackt/handler-dom'
+require '@atrackt/service-adobe-analytics'
+require '@atrackt/core/console'
+```
+
+```html
+<!-- SCRIPT -->
+<script type="module" src="/path/to/@atrackt/core/atrackt.js"></script>
+<script type="module" src="/path/to/@atrackt/handler-dom/dom.js"</script>
+<script type="module" src="/path/to/@atrackt/service-adobe-analytics/adobe-analytics.js"</script>
+<script type="module" src="/path/to/@atrackt/core/console.js"</script>
+```
+
+### BIND
+
+```js
+// only used with a handler in a browser
+// setEvents takes an object with the key is the event name, and the value is based on the handler that was set
+Atrackt.setEvents({
+  // this will bind a click event on all dom elements with the class `click`
+  click: '.click',
 })
 ```
 
-###### Support tracking DOM elements
+### INITIALIZE
+
+```js
+// after handler is set, or if not using a handler
+Atrackt.start()
+```
+
+---
+
+### CUSTOM HANDLER
+
+```js
+const Atrackt = new Core({ config: {...} })
+
+// ...or write your own service(s)
+Atrackt.setService({
+  name: 'My Service',
+    submit: (data, options) => {
+    // with data & options, make any needed adjustments, & submit the data it to the service
+  },
+})
+
+Atrackt.setEvents({
+  click: '.click' // track click events on elements with `click` css class
+})
+
+
+// ...or write your own handler
+import Handler from '@atrackt/core/handler'
+
+new Handler({
+  name: 'My Handler',
+  setEvents: (eventObject) => {
+    // use eventObject to bind event key to element
+  },
+})
+
+```
+
+##### Initialize & Configure
+
+```js
+// initialize atrackt with optional configuration (see below)
+const Atrackt = new Core({ config: {...} })
+```
+
+##### Support tracking DOM elements
+
 ```js
 // set a handler (see below)
 // set services (see below)
@@ -37,46 +148,40 @@ Atrackt.track([ELEMENT NODE], {
 })
 ```
 
-###### Set a Handler
+##### Set a Handler
+
 ```js
 // import an element handler
 import '@atrackt/handler-dom'
 
-// or write a custom handler
+// or write your own handler
 import Handler from '@atrackt/core/handler'
 
 new Handler({
   name: 'My Handler',
   setEvents: (eventObject) => {
     // use eventObject to bind event key to element
-  }
+  },
 })
 ```
 
-###### Initialize & Configure
-```js
-// import core or handler
-import Atrackt from '@atrackt/core'
+##### Set Services
 
-// initialize atrackt with optional configuration (see below)
-const Atrackt = new Core({ config: {...} })
-```
-
-###### Set Services
 ```js
 // import services
 import '@atrackt/service-adobe-analytics'
 
-// write a custom service
+// write your own service
 Atrackt.setService({
   name: 'My Service',
   submit: (data, options) => {
-    // modify data if needed, & send it to the service
-  }
+    // with the passed data & options, make any needed adjustments, & submit the data it to the service
+  },
 })
 ```
 
 #### via HTML
+
 ```html
 <script type="module" src="/@atrackt/handler-dom/dom.js"></script>
 <!-- OR -->
@@ -105,19 +210,23 @@ Atrackt.track([DATA], {
 ```js
 Atrackt.track([DATA], {
   'Adobe Analytics': {
-    option: 'object'
-  }
+    option: 'object',
+  },
 })
 ```
 
 ---
 
 ## Development
+
 #### Setup Environment
->###### Install Dependencies
->- [git](https://git-scm.com)
->- [node.js](https://nodejs.org)
->- [yarn](https://yarnpkg.com)
+
+> ##### Install Dependencies
+>
+> - [git](https://git-scm.com)
+> - [node.js](https://nodejs.org)
+> - [yarn](https://yarnpkg.com)
+
 ```sh
 # clone repository
 git clone git@github.com:atrackt/atrackt.git
@@ -131,6 +240,7 @@ git config --local include.path ../.gitconfig
 # install node dependencies
 yarn
 ```
+
 ```sh
 # run tests
 yarn test
@@ -144,7 +254,7 @@ yarn demo
 ## Todo: Production
 
 - easily include/change data via js w/out using atrackt-function
-- allow setting data and event via atrackt.track
+- allow setting data & event via atrackt.track
 - use [VisualEvent](https://github.com/DataTables/VisualEvent) as a reference to find elements with events
 - rename location to title
 - rename categories to location
@@ -176,7 +286,7 @@ yarn demo
 - [jsdoc](https://jsdoc.app/tags-member.html)
 - remove comment from package.json.husky.hooks.pre-commit to resume testing before each commit
 - remove packages from npm registry
-- create new orphan branch and re-create conventional commits
+- create new orphan branch & re-create conventional commits
 - lerna
   - customize package.json
   - generate CHANGELOG
