@@ -30,7 +30,7 @@
     "style-loader": "^2",
     "systematize": "^3",
     "ts-loader": "^8",
-    "typescript": "^4.1.4",
+    "typescript": "^4",
     "webpack": "^5",
     "webpack-cli": "^4"
   },
@@ -44,7 +44,7 @@
   },
   "keywords": [
     "adobe",
-    "multiture",
+    "omniture",
     "sitecatalyst",
     "analytics",
     "jquery",
@@ -60,7 +60,7 @@
     "tracking"
   ],
   "publishConfig": {
-    "access": "private",
+    "access": "public",
     "directory": ".dist",
     "registry": "https://registry.npmjs.org",
     "scope": "@atrackt"
