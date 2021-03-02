@@ -13,8 +13,9 @@ describe('Handler', () => {
     let validateMock
 
     beforeEach(() => {
-      validateMock = jest.spyOn(Handler.prototype, 'validate')
-      validateMock.mockImplementation()
+      validateMock = jest
+        .spyOn(Handler.prototype, 'validate')
+        .mockImplementation()
     })
 
     it('should initialize', () => {
@@ -70,8 +71,9 @@ describe('Handler', () => {
 
       context('when in a browser', () => {
         beforeEach(() => {
-          windowSpy = jest.spyOn(global, 'window', 'get')
-          windowSpy.mockImplementation(() => undefined)
+          windowSpy = jest
+            .spyOn(global, 'window', 'get')
+            .mockImplementation(() => undefined)
         })
 
         context('when no handler passed', () => {

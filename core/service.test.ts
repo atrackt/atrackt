@@ -62,7 +62,6 @@ describe('Service', () => {
           it('should extend Metadata', () => {
             windowSpy = jest
               .spyOn(global, 'window', 'get')
-              // @ts-ignore
               .mockImplementation(() => true)
 
             expect(service.validate).toThrow('Core')

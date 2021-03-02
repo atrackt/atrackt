@@ -18,12 +18,14 @@ export default class Metadata {
     this.payload = {}
   }
 
-  public callCallbacks(order, payload, options) {
+  public callCallbacks(order, payload?, options?) {
+    let newValues = { payload, options }
+
     for (const cb of this.callbacks[order]) {
-      cb.call(this)
+      newValues = { payload, options } = cb.call(this, payload, options)
     }
 
-    return { payload, options }
+    return newValues
   }
 
   private setCallbacks(callbacks) {
@@ -39,18 +41,21 @@ export default class Metadata {
       )
     }
 
-    this.callbacks = Utils.deepMerge(this.callbacks, callbacks)
+    return (this.callbacks = Utils.deepMerge(this.callbacks, callbacks))
   }
 
   private setData(data) {
-    this.data = Utils.deepMerge(this.data, data)
+    return (this.data = Utils.deepMerge(this.data, data))
   }
 
   private setEvents(eventSelectors) {
-    this.eventSelectors = Utils.deepMerge(this.eventSelectors, eventSelectors)
+    return (this.eventSelectors = Utils.deepMerge(
+      this.eventSelectors,
+      eventSelectors
+    ))
   }
 
   private setOptions(options) {
-    this.options = Utils.deepMerge(this.options, options)
+    return (this.options = Utils.deepMerge(this.options, options))
   }
 }

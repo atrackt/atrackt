@@ -26,31 +26,38 @@ describe(Core, () => {
   describe('setCore', () => {
     it('should call the provided function with arguments', () => {
       const setCoreFunctionName = 'setCoreFunctionName'
-      const setCoreFunctionReturn = 'setCoreFunctionReturn'
       const setCoreObject = 'setCoreObject'
+      const setGlobalFunctionReturn = 'setGlobalFunctionReturn'
       core.global[setCoreFunctionName] = () => {}
 
-      const globalFunctionSpy = jest.spyOn(core.global, setCoreFunctionName)
-      globalFunctionSpy.mockImplementation(() => setCoreFunctionReturn)
+      const setCoreSpy = jest.spyOn(core, 'setCore')
+      const globalFunctionSpy = jest
+        .spyOn(core.global, setCoreFunctionName)
+        .mockImplementation(() => setGlobalFunctionReturn)
 
-      const setCoreReturn = core.setCore(setCoreFunctionName, setCoreObject)
+      core.setCore(setCoreFunctionName, setCoreObject)
 
-      expect(globalFunctionSpy).toHaveBeenNthCalledWith(1, setCoreObject)
-      expect(setCoreReturn).toEqual(setCoreFunctionReturn)
+      expect(globalFunctionSpy).toBeCalledWith(setCoreObject)
+      expect(setCoreSpy).toReturnWith(setGlobalFunctionReturn)
     })
   })
 
   describe('setConsole', () => {
     context('when handler has been loaded', () => {
       it('should initialize the console', () => {
+        const setConsoleReturn = 'setConsoleReturn'
         core.handler = { setConsole: () => {} }
-        const setConsoleSpy = jest.spyOn(core.handler, 'setConsole')
-        setConsoleSpy.mockImplementation(() => 'setConsoleReturn')
+
+        const setConsoleSpy = jest.spyOn(core, 'setConsole')
+        const handlerSetConsoleSpy = jest
+          .spyOn(core.handler, 'setConsole')
+          .mockImplementation(() => setConsoleReturn)
 
         core.setConsole('setConsoleArg')
 
-        expect(setConsoleSpy).toBeCalledWith('setConsoleArg')
-        expect(setConsoleSpy).toReturnWith('setConsoleReturn')
+        expect(handlerSetConsoleSpy).toBeCalledWith('setConsoleArg')
+        expect(handlerSetConsoleSpy).toReturnWith(setConsoleReturn)
+        expect(setConsoleSpy).toReturnWith(setConsoleReturn)
       })
     })
 
@@ -71,46 +78,42 @@ describe(Core, () => {
 
       const setHandlerSpy = jest.spyOn(core, 'setHandler')
 
-      const handlerReturn = core.setHandler(handlerArg)
+      core.setHandler(handlerArg)
 
       expect(Handler).toBeCalledWith(handlerArg)
-      expect(setHandlerSpy).toReturnWith(handlerReturn)
-      expect(handlerReturn).toBeInstanceOf(Handler)
-      expect(core.handler).toBe(handlerReturn)
+      expect(setHandlerSpy).toReturnWith(core.handler)
+      expect(core.handler).toBeInstanceOf(Handler)
     })
   })
 
   describe('.setService', () => {
+    const setServiceName = 'Service Name'
     const setServiceArg = {
-      name: 'serviceName',
+      name: setServiceName,
     }
 
     context('with a new service', () => {
-      beforeEach(() => {
-        core.services = {}
-      })
-
       it('should register the service', () => {
-        const setServiceReturn = core.setService(setServiceArg)
+        core.services = {}
+        const setServiceSpy = jest.spyOn(core, 'setService')
 
-        expect(Service).toHaveBeenNthCalledWith(1, setServiceArg)
-        expect(core.services['serviceName']).toBeInstanceOf(Service)
-        expect(core.services['serviceName']).toBe(setServiceReturn)
+        core.setService(setServiceArg)
+
+        expect(Service).toBeCalledWith(setServiceArg)
+        expect(setServiceSpy).toReturnWith(core.services[setServiceName])
+        expect(core.services[setServiceName]).toBeInstanceOf(Service)
       })
     })
 
     context('with an existing service', () => {
-      beforeEach(() => {
-        core.services = { serviceName: setServiceArg }
-      })
-
       it('should prevent duplicate services', () => {
+        core.services = { [setServiceName]: setServiceArg }
         const duplicateService = () => core.setService(setServiceArg)
 
         expect(duplicateService).toThrow(Failure)
         expect(Service).not.toHaveBeenCalled()
-        expect(Object.entries(core.services)).toHaveLength(1)
-        expect(core.services.serviceName.name).toEqual('serviceName')
+        expect(Object.keys(core.services)).toHaveLength(1)
+        expect(core.services[setServiceName]).toBe(setServiceArg)
       })
     })
   })
@@ -122,24 +125,21 @@ describe(Core, () => {
     const setMetadataFunctionReturn = 'setMetadataFunctionReturn'
     const setMetadataObject = 'setMetadataObject'
     const setMetadataServiceName = 'Service Name'
-    const globalFunction = () => {}
-    const serviceFunction = () => {}
     let globalFunctionSpy
     let serviceFunctionSpy
 
     beforeEach(() => {
-      core.global[setMetadataFunctionName] = globalFunction
+      core.global[setMetadataFunctionName] = () => {}
       core.services[setMetadataServiceName] = {
-        [setMetadataFunctionName]: serviceFunction,
+        [setMetadataFunctionName]: () => {},
       }
 
-      globalFunctionSpy = jest.spyOn(core.global, setMetadataFunctionName)
-      serviceFunctionSpy = jest.spyOn(
-        core.services[setMetadataServiceName],
-        setMetadataFunctionName
-      )
-      globalFunctionSpy.mockImplementation(() => setMetadataFunctionReturn)
-      serviceFunctionSpy.mockImplementation(() => setMetadataFunctionReturn)
+      globalFunctionSpy = jest
+        .spyOn(core.global, setMetadataFunctionName)
+        .mockImplementation(() => setMetadataFunctionReturn)
+      serviceFunctionSpy = jest
+        .spyOn(core.services[setMetadataServiceName], setMetadataFunctionName)
+        .mockImplementation(() => setMetadataFunctionReturn)
     })
 
     context('when no services are passed', () => {
@@ -182,8 +182,8 @@ describe(Core, () => {
         options,
       }
     }
-    const trackPayload = 1
-    const trackOptions = 1
+    const payloadCount = 1
+    const optionsCount = 1
     const serviceOneName = 'Service One'
     const serviceTwoName = 'Service Two'
     let globalCallCallbacksSpy
@@ -191,40 +191,49 @@ describe(Core, () => {
     let serviceOneSubmitSpy
     let serviceTwoCallCallbacksSpy
     let serviceTwoSubmitSpy
+    let trackSpy
 
     beforeEach(() => {
       core.services = {
-        // @ts-ignore
-        [serviceOneName]: new Service(),
-        // @ts-ignore
-        [serviceTwoName]: new Service(),
+        [serviceOneName]: {
+          name: serviceOneName,
+          callCallbacks: () => {},
+          submit: () => {},
+        },
+        [serviceTwoName]: {
+          name: serviceTwoName,
+          callCallbacks: () => {},
+          submit: () => {},
+        },
       }
 
-      globalCallCallbacksSpy = jest.spyOn(core.global, 'callCallbacks')
-      globalCallCallbacksSpy.mockImplementation((order, payload, options) =>
-        iterateFunc(payload, options)
-      )
-      serviceOneCallCallbacksSpy = jest.spyOn(
-        core.services[serviceOneName],
-        'callCallbacks'
-      )
-      serviceOneCallCallbacksSpy.mockImplementation((order, payload, options) =>
-        iterateFunc(payload, options)
-      )
-      serviceOneSubmitSpy = jest.spyOn(core.services[serviceOneName], 'submit')
-      serviceTwoCallCallbacksSpy = jest.spyOn(
-        core.services[serviceTwoName],
-        'callCallbacks'
-      )
-      serviceTwoCallCallbacksSpy.mockImplementation((order, payload, options) =>
-        iterateFunc(payload, options)
-      )
-      serviceTwoSubmitSpy = jest.spyOn(core.services[serviceTwoName], 'submit')
+      globalCallCallbacksSpy = jest
+        .spyOn(core.global, 'callCallbacks')
+        .mockImplementation((order, payload, options) =>
+          iterateFunc(payload, options)
+        )
+      serviceOneCallCallbacksSpy = jest
+        .spyOn(core.services[serviceOneName], 'callCallbacks')
+        .mockImplementation((order, payload, options) =>
+          iterateFunc(payload, options)
+        )
+      serviceOneSubmitSpy = jest
+        .spyOn(core.services[serviceOneName], 'submit')
+        .mockImplementation((payload, options) => iterateFunc(payload, options))
+      serviceTwoCallCallbacksSpy = jest
+        .spyOn(core.services[serviceTwoName], 'callCallbacks')
+        .mockImplementation((order, payload, options) =>
+          iterateFunc(payload, options)
+        )
+      serviceTwoSubmitSpy = jest
+        .spyOn(core.services[serviceTwoName], 'submit')
+        .mockImplementation((payload, options) => iterateFunc(payload, options))
+      trackSpy = jest.spyOn(core, 'track')
     })
 
     context('when no services are passed', () => {
-      it('should should call global & all service functions', () => {
-        core.track(trackPayload, trackOptions)
+      it('should call global & all service functions', () => {
+        core.track(payloadCount, optionsCount)
 
         expect(globalCallCallbacksSpy).toHaveBeenNthCalledWith(
           1,
@@ -238,33 +247,34 @@ describe(Core, () => {
           2,
           2
         )
-        expect(serviceOneSubmitSpy).toBeCalledWith()
+        expect(serviceOneSubmitSpy).toHaveBeenNthCalledWith(1, 3, 3)
         expect(serviceOneCallCallbacksSpy).toHaveBeenNthCalledWith(
           2,
           'after',
-          3,
-          3
+          4,
+          4
         )
         expect(serviceTwoCallCallbacksSpy).toHaveBeenNthCalledWith(
           1,
           'before',
-          4,
-          4
-        )
-        expect(serviceTwoSubmitSpy).toBeCalledWith()
-        expect(serviceTwoCallCallbacksSpy).toHaveBeenNthCalledWith(
-          2,
-          'after',
           5,
           5
         )
-        expect(globalCallCallbacksSpy).toHaveBeenNthCalledWith(2, 'after', 6, 6)
+        expect(serviceTwoSubmitSpy).toHaveBeenNthCalledWith(1, 6, 6)
+        expect(serviceTwoCallCallbacksSpy).toHaveBeenNthCalledWith(
+          2,
+          'after',
+          7,
+          7
+        )
+        expect(globalCallCallbacksSpy).toHaveBeenNthCalledWith(2, 'after', 8, 8)
+        expect(trackSpy).toReturnWith({ payload: 9, options: 9 })
       })
     })
 
     context('when services are passed', () => {
-      it('should should call global & only passed service functions', () => {
-        core.track(trackPayload, trackOptions, serviceTwoName)
+      it('should call global & only passed service functions', () => {
+        core.track(payloadCount, optionsCount, serviceTwoName)
 
         expect(globalCallCallbacksSpy).toHaveBeenNthCalledWith(
           1,
@@ -280,14 +290,15 @@ describe(Core, () => {
           2,
           2
         )
-        expect(serviceTwoSubmitSpy).toBeCalledWith()
+        expect(serviceTwoSubmitSpy).toHaveBeenNthCalledWith(1, 3, 3)
         expect(serviceTwoCallCallbacksSpy).toHaveBeenNthCalledWith(
           2,
           'after',
-          3,
-          3
+          4,
+          4
         )
-        expect(globalCallCallbacksSpy).toHaveBeenNthCalledWith(2, 'after', 4, 4)
+        expect(globalCallCallbacksSpy).toHaveBeenNthCalledWith(2, 'after', 5, 5)
+        expect(trackSpy).toReturnWith({ payload: 6, options: 6 })
       })
     })
   })

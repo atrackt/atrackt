@@ -29,8 +29,9 @@ describe(Atrackt, () => {
             const setCoreReturn = 'setCoreReturn'
 
             const methodSpy = jest.spyOn(Atrackt, method)
-            const setCoreSpy = jest.spyOn(Atrackt._core, 'setCore')
-            setCoreSpy.mockImplementation(() => setCoreReturn)
+            const setCoreSpy = jest
+              .spyOn(Atrackt._core, 'setCore')
+              .mockImplementation(() => setCoreReturn)
 
             Atrackt[method](methodArg)
 
@@ -50,8 +51,9 @@ describe(Atrackt, () => {
             const setMetadataReturn = 'setMetadataReturn'
 
             const methodSpy = jest.spyOn(Atrackt, method)
-            const setMetadataSpy = jest.spyOn(Atrackt._core, 'setMetadata')
-            setMetadataSpy.mockImplementation(() => setMetadataReturn)
+            const setMetadataSpy = jest
+              .spyOn(Atrackt._core, 'setMetadata')
+              .mockImplementation(() => setMetadataReturn)
 
             Atrackt[method](methodArg)
 
@@ -90,8 +92,9 @@ describe(Atrackt, () => {
 
       beforeEach(() => {
         trackSpy = jest.spyOn(Atrackt, 'track')
-        coreTrackSpy = jest.spyOn(Atrackt._core, 'track')
-        coreTrackSpy.mockImplementation(() => trackReturn)
+        coreTrackSpy = jest
+          .spyOn(Atrackt._core, 'track')
+          .mockImplementation(() => trackReturn)
       })
 
       afterEach(() => {

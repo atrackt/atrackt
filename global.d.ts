@@ -10,20 +10,29 @@ interface Window {
 
 type ServiceNames = string | string[]
 
+type TrackDataFunction = (payload: object, options: object) => TrackDataObject
+
+type TrackDataObject = {
+  payload: object
+  options: object
+}
+
 // CORE OBJECTS
 //
 type ConsoleObject = {
-  [key: string]: any // to allow additional variables and functions for a handler
+  [key: string]: any // to allow additional variables and functions for a console
 }
 
 type HandlerObject = {
   [key: string]: any // to allow additional variables and functions for a handler
+  bindEvent(element: object, eventName: string): object
+  getElements(selector: string): object[]
 }
 
 type ServiceObject = {
-  [key: string]: any // to allow additional variables and functions for a handler
+  [key: string]: any // to allow additional variables and functions for a service
   name: string
-  submit()
+  submit: TrackDataFunction
 }
 
 type CallbackOrdersObject = {

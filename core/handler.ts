@@ -25,7 +25,7 @@ export default class Handler {
     // this.console = true
   }
 
-  private getElements(selector) {
+  private getElements(selector): object[] {
     throw new Failure('getElements cannot be called directly. use setHandler')
   }
 
@@ -33,7 +33,10 @@ export default class Handler {
     throw new Failure('bindEvent cannot be called directly. use setHandler')
   }
 
-  private setEvents(eventSelectors, serviceNames?) {
+  private setEvents(
+    eventSelectors: EventSelectorsObject,
+    serviceNames?: ServiceNames
+  ) {
     this.setEvents(eventSelectors, serviceNames)
 
     for (const eventName in eventSelectors) {
@@ -42,7 +45,6 @@ export default class Handler {
       for (const selectors of selectorsArray) {
         const elements = this.getElements(selectors)
 
-        // @ts-ignore
         for (const element of elements) {
           this.bindEvent(element, eventName)
         }

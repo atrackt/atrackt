@@ -66,12 +66,14 @@ export default class Service extends Metadata {
 
     let submitReturn = Utils.getFunctionReturn(service.submit)
 
-    if (submitReturn !== 'payload') {
+    if (submitReturn !== '{payload:payload,options:options}') {
       throw new Failure(
         'The submit function must explicitly return the payload'
       )
     }
   }
 
-  submit() {}
+  public submit() {
+    throw new Failure('Submit can only be called on a service')
+  }
 }

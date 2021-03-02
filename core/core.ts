@@ -87,6 +87,8 @@ export default class Core {
       newValues.payload,
       newValues.options
     )
+
+    // call services
     for (const serviceName of serviceNames) {
       const service = this.services[serviceName]
       newValues = { payload, options } = service.callCallbacks(
@@ -94,17 +96,23 @@ export default class Core {
         newValues.payload,
         newValues.options
       )
-      service.submit()
+      newValues = { payload, options } = service.submit(
+        newValues.payload,
+        newValues.options
+      )
       newValues = { payload, options } = service.callCallbacks(
         'after',
         newValues.payload,
         newValues.options
       )
     }
+
     newValues = { payload, options } = this.global.callCallbacks(
       'after',
       newValues.payload,
       newValues.options
     )
+
+    return newValues
   }
 }
