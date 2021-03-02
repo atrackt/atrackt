@@ -20,7 +20,13 @@ export default class Core {
 
   // CORE METHODS
   //
-  private setConsole(console) {
+  public setCore(functionName: string, object: object) {
+    return this.global[functionName].call(this, object)
+  }
+
+  // ignore coverage for dynamically called methods
+  /* c8 ignore start */
+  private setConsole(console: ConsoleObject) {
     try {
       return this.handler.setConsole(console)
     } catch (error) {
@@ -28,92 +34,77 @@ export default class Core {
     }
   }
 
-  private setHandler(handler) {
+  private setHandler(handler: HandlerObject) {
     return (this.handler = new Handler(handler))
   }
 
-  private setService(serviceObject) {
-    if (this.services[serviceObject.name]) {
-      throw new Failure(`${serviceObject.name} service is already set`)
+  private setService(service: ServiceObject) {
+    if (this.services[service.name]) {
+      throw new Failure(`${service.name} service is already set`)
     }
 
-    const service = new Service(serviceObject)
-    return (this.services[serviceObject.name] = service)
+    // const service = new Service(service)
+    return (this.services[service.name] = new Service(service))
   }
-
-  public setGlobal(func, object) {
-    this.global[func].call(this, func)
-  }
+  /* c8 ignore stop */
 
   // METADATA METHODS
   //
-  private setCallbacks(callbacks, serviceNames) {
-    this.callGlobalOrServices(this, serviceNames, 'setCallbacks', [callbacks])
-    return callbacks
-  }
+  public setMetadata(
+    functionName: string,
+    object: object,
+    serviceNames?: ServiceNames
+  ) {
+    serviceNames = [serviceNames].flat().filter(Boolean)
+    let returnValue
 
-  private setData(data, serviceNames) {
-    this.callGlobalOrServices(this, serviceNames, 'setData', [data])
-    return data
-  }
-
-  private setEvents(eventSelectors, serviceNames) {
-    this.callGlobalOrServices(this, serviceNames, 'setEvents', [eventSelectors])
-    return eventSelectors
-  }
-
-  private setOptions(options, serviceNames) {
-    this.callGlobalOrServices(this, serviceNames, 'setOptions', [options])
-    return options
+    if (serviceNames.length) {
+      serviceNames.forEach((serviceName) => {
+        const service = this.services[serviceName]
+        returnValue = service[functionName].call(service, object)
+      })
+    } else {
+      returnValue = this.global[functionName].call(this.global, object)
+    }
+    return returnValue
   }
 
   // API METHODS
   //
-  // calls a global function or from the services array
-  // TODO: figure out when i need to run all services when global, and when just need to run on global
-  private callGlobalOrServices(func, serviceNames?: string[], ...args) {
-    if (serviceNames.length) {
-      serviceNames.forEach((serviceName) => {
-        const service = this.services[serviceName]
-        service[func].apply(service[func], args)
-      })
-    } else {
-      this.global[func].apply(this.global[func], args)
-    }
-  }
-
-  public setMetadata(func, serviceNames, ...args) {
-    // const func = 'set' + key.charAt(0).toUpperCase() + key.slice(1)
-
-    // const serviceNames = args.pop()
-    // this[func].apply(this, args)
-
-    this.callGlobalOrServices(func, serviceNames, ...args)
-    // Core.callGlobalOrServices(this, serviceNames, ['setCallbacks', callbacks])
-    return args
-    // return callbacks
-  }
-
-  public track(payload, options, serviceNames) {
-    // TODO: use callGlobalOrServices? might need a flag to run functions on all services when global or not
-    // TODO: there is already code somewhere for that
-    // Core.callGlobalOrServices(this, serviceNames, 'track', [payload, options])
-
+  public track(payload, options: object = {}, serviceNames: ServiceNames = []) {
     // if no service names are passed, use all registered services
+    serviceNames = [serviceNames].flat()
     serviceNames = serviceNames.length
       ? serviceNames
       : Object.keys(this.services)
 
+    // keep track of changes to data & options from callbacks
+    let newValues = { payload, options }
+
     // execute call order
-    this.global.callCallbacks('before', payload, options)
+    newValues = { payload, options } = this.global.callCallbacks(
+      'before',
+      newValues.payload,
+      newValues.options
+    )
     for (const serviceName of serviceNames) {
       const service = this.services[serviceName]
-      service.callCallbacks('before', payload, options)
+      newValues = { payload, options } = service.callCallbacks(
+        'before',
+        newValues.payload,
+        newValues.options
+      )
       service.submit()
-      service.callCallbacks('after', payload, options)
+      newValues = { payload, options } = service.callCallbacks(
+        'after',
+        newValues.payload,
+        newValues.options
+      )
     }
-    this.global.callCallbacks('after', payload, options)
-
-    return payload
+    newValues = { payload, options } = this.global.callCallbacks(
+      'after',
+      newValues.payload,
+      newValues.options
+    )
   }
 }

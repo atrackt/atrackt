@@ -1,7 +1,7 @@
 import Utils from '@atrackt/core/utils'
 
 export default class Metadata {
-  callbacks: CallbackOrders
+  callbacks: CallbackOrdersObject
   data: object // additional data to include with payload
   eventSelectors: EventSelectorsObject // event names and query selectors to check events against
   options: object // options to be passed to services
@@ -22,6 +22,8 @@ export default class Metadata {
     for (const cb of this.callbacks[order]) {
       cb.call(this)
     }
+
+    return { payload, options }
   }
 
   private setCallbacks(callbacks) {

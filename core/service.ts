@@ -72,4 +72,6 @@ export default class Service extends Metadata {
       )
     }
   }
+
+  submit() {}
 }

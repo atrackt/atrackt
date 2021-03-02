@@ -24,19 +24,19 @@ describe(Atrackt, () => {
     describe('core methods', () => {
       for (const method of CORE_METHODS) {
         describe(`#${method}`, () => {
-          it('should call setGlobal on Core', () => {
+          it('should call setCore on Core', () => {
             const methodArg = `${method}Arg`
-            const setGlobalReturn = 'setGlobalReturn'
+            const setCoreReturn = 'setCoreReturn'
 
             const methodSpy = jest.spyOn(Atrackt, method)
-            const setGlobalSpy = jest.spyOn(Atrackt._core, 'setGlobal')
-            setGlobalSpy.mockImplementation(() => setGlobalReturn)
+            const setCoreSpy = jest.spyOn(Atrackt._core, 'setCore')
+            setCoreSpy.mockImplementation(() => setCoreReturn)
 
             Atrackt[method](methodArg)
 
             expect(methodSpy).toBeCalledWith(methodArg)
-            expect(methodSpy).toReturnWith(setGlobalReturn)
-            expect(setGlobalSpy).toBeCalledWith(method, methodArg)
+            expect(methodSpy).toReturnWith(setCoreReturn)
+            expect(setCoreSpy).toBeCalledWith(method, methodArg)
           })
         })
       }
@@ -57,7 +57,7 @@ describe(Atrackt, () => {
 
             expect(methodSpy).toBeCalledWith(methodArg)
             expect(methodSpy).toReturnWith(setMetadataReturn)
-            expect(setMetadataSpy).toBeCalledWith(method, methodArg, [])
+            expect(setMetadataSpy).toBeCalledWith(method, methodArg, undefined)
           })
         })
       }
@@ -67,7 +67,6 @@ describe(Atrackt, () => {
       it('should initialize Core', () => {
         delete Atrackt._core
         const startArg = 'startArg'
-        const startReturn = 'startReturn'
 
         const startSpy = jest.spyOn(Atrackt, 'start')
 
@@ -81,19 +80,82 @@ describe(Atrackt, () => {
     })
 
     describe('#track', () => {
-      it('should call track on Core', () => {
-        const trackArg = 'trackPayloadArg'
-        const trackReturn = 'trackReturn'
+      const trackPayload = { payloadKey: 'payloadValue' }
+      const trackOptions = { optionsKey: 'optionsValue' }
+      const trackServiceNames = 'serviceName'
+      const trackReturn = 'trackReturn'
 
-        const trackSpy = jest.spyOn(Atrackt, 'track')
-        const coreTrackSpy = jest.spyOn(Atrackt._core, 'track')
+      let trackSpy
+      let coreTrackSpy
+
+      beforeEach(() => {
+        trackSpy = jest.spyOn(Atrackt, 'track')
+        coreTrackSpy = jest.spyOn(Atrackt._core, 'track')
         coreTrackSpy.mockImplementation(() => trackReturn)
+      })
 
-        Atrackt.track(trackArg)
-
-        expect(trackSpy).toBeCalledWith(trackArg)
+      afterEach(() => {
         expect(trackSpy).toReturnWith(trackReturn)
-        expect(coreTrackSpy).toBeCalledWith(trackArg, {}, [])
+      })
+
+      context('when called with only a payload', () => {
+        beforeEach(() => {
+          Atrackt.track(trackPayload)
+        })
+
+        it('should call track on Core', () => {
+          // expect(trackSpy).toReturnWith(trackReturn)
+          expect(coreTrackSpy).toBeCalledWith(
+            trackPayload,
+            undefined,
+            undefined
+          )
+        })
+      })
+
+      context('when called with only a payload & options', () => {
+        beforeEach(() => {
+          Atrackt.track(trackPayload, trackOptions)
+        })
+
+        it('should call track on Core', () => {
+          // expect(trackSpy).toReturnWith(trackReturn)
+          expect(coreTrackSpy).toBeCalledWith(
+            trackPayload,
+            trackOptions,
+            undefined
+          )
+        })
+      })
+
+      context('when called with only a payload & service names', () => {
+        beforeEach(() => {
+          Atrackt.track(trackPayload, trackServiceNames)
+        })
+
+        it('should call track on Core', () => {
+          // expect(trackSpy).toReturnWith(trackReturn)
+          expect(coreTrackSpy).toBeCalledWith(
+            trackPayload,
+            {},
+            trackServiceNames
+          )
+        })
+      })
+
+      context('when called with a payload, options, & service names', () => {
+        beforeEach(() => {
+          Atrackt.track(trackPayload, trackOptions, trackServiceNames)
+        })
+
+        it('should call track on Core', () => {
+          // expect(trackSpy).toReturnWith(trackReturn)
+          expect(coreTrackSpy).toBeCalledWith(
+            trackPayload,
+            trackOptions,
+            trackServiceNames
+          )
+        })
       })
     })
   })

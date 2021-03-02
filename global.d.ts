@@ -1,12 +1,17 @@
-// jest
+// JEST
+//
 declare var context: jest.Describe
 
-// global
+// GLOBAL
+//
 interface Window {
   Atrackt: object
 }
 
-// objects
+type ServiceNames = string | string[]
+
+// CORE OBJECTS
+//
 type ConsoleObject = {
   [key: string]: any // to allow additional variables and functions for a handler
 }
@@ -15,19 +20,21 @@ type HandlerObject = {
   [key: string]: any // to allow additional variables and functions for a handler
 }
 
-type CallbackOrders = {
-  before: Function[]
-  after: Function[]
-}
-
 type ServiceObject = {
   [key: string]: any // to allow additional variables and functions for a handler
   name: string
   submit()
 }
 
+type CallbackOrdersObject = {
+  before: Function[]
+  after: Function[]
+}
+
+// METADATA OBJECTS
+//
 type EventSelectorsObject = {
-  [key: string]: [string | string[]]
+  [key: string]: ServiceNames
 }
 
 // type Core {
@@ -57,7 +64,7 @@ type EventSelectorsObject = {
 // }
 
 // // type Metadata {
-// //   callbacks: CallbackOrders
+// //   callbacks: CallbackOrdersObject
 // // }
 
 // interface HandlerClass {
@@ -66,7 +73,7 @@ type EventSelectorsObject = {
 // }
 
 // interface MetadataClass {
-//   // callbacks: CallbackOrders
+//   // callbacks: CallbackOrdersObject
 //   // data: object
 //   // eventSelectors: EventSelectorsObject
 //   // options: object
@@ -98,7 +105,7 @@ type EventSelectorsObject = {
 // }
 
 // interface MetadataConstructor extends Constructable {
-//   // callbacks: CallbackOrders
+//   // callbacks: CallbackOrdersObject
 // }
 
 // interface ServiceConstructor extends Constructable {
@@ -109,7 +116,7 @@ type EventSelectorsObject = {
 // }
 
 // // objects
-// type CallbackOrders {
+// type CallbackOrdersObject {
 //   before: Function[]
 //   after: Function[]
 // }

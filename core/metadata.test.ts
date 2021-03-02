@@ -17,4 +17,28 @@ describe('Metadata', () => {
       expect(metadata.options).toEqual({})
     })
   })
+
+  describe('setCallbacks', () => {
+    it('should ', () => {
+      //
+    })
+  })
+
+  describe('setData', () => {
+    it('should ', () => {
+      //
+    })
+  })
+
+  describe('setEvents', () => {
+    it('should ', () => {
+      //
+    })
+  })
+
+  describe('setOptions', () => {
+    it('should ', () => {
+      //
+    })
+  })
 })
